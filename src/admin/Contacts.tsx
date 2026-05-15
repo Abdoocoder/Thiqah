@@ -4,15 +4,19 @@ import type { Id } from "../../convex/_generated/dataModel";
 import AdminLayout from "./AdminLayout";
 import { MessageCircle, Trash2, Search, X, Inbox } from "lucide-react";
 import { ContactSkeleton } from "../components/Skeleton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { whatsappUrl } from "../lib/whatsapp";
 import Pagination from "../components/Pagination";
 import { useToast } from "../components/useToast";
 import Toast from "../components/Toast";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 export default function Contacts() {
+  useEffect(() => { document.title = "رسائل العملاء — الثقة"; }, []);
+
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
   const pageSize = 10;
 
   const contacts = useQuery(api.contacts.list, { search: search || undefined });
@@ -31,7 +35,6 @@ export default function Contacts() {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("هل أنت متأكد من حذف هذه الرسالة؟")) return;
     try {
       await removeContact({ id: id as Id<"contacts"> });
       showToast("تم حذف الرسالة", "info");
@@ -89,7 +92,7 @@ export default function Contacts() {
                   style={{ animation: `fadeSlideUp 300ms ease-out forwards`, animationDelay: `${idx * 40}ms` }}
                   onClick={() => !contact.read && handleMarkRead(contact._id)}
                   onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && !contact.read) { e.preventDefault(); handleMarkRead(contact._id); } }}
-                  tabIndex={contact.read ? -1 : 0} role="button">
+                  tabIndex={contact.read ? -1 : 0} role={contact.read ? undefined : "button"}>
                   <div className="p-4 lg:p-6">
                     <div className="flex items-start gap-4 flex-row-reverse">
                       <div className="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-lg shrink-0">
@@ -110,7 +113,7 @@ export default function Contacts() {
                             className="flex items-center gap-2 px-4 py-2 rounded-full bg-whatsapp/10 text-whatsapp text-xs font-bold hover:bg-whatsapp/20 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-whatsapp/40 focus-visible:outline-none transition duration-150">
                             <MessageCircle size={14} /> رد عبر واتساب
                           </a>
-                          <button onClick={(e) => { e.stopPropagation(); handleDelete(contact._id); }}
+                          <button onClick={(e) => { e.stopPropagation(); setDeleteTarget(contact._id); }}
                             className="flex items-center gap-2 px-4 py-2 rounded-full border border-error-container text-xs font-bold text-error hover:bg-error-container active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150">
                             <Trash2 size={14} /> حذف
                           </button>
@@ -125,6 +128,15 @@ export default function Contacts() {
           </>
         )}
         <Toast toast={toast} />
+        <ConfirmDialog
+          open={deleteTarget !== null}
+          title="حذف الرسالة"
+          message="هل أنت متأكد من حذف هذه الرسالة؟ لا يمكن التراجع عن هذا الإجراء."
+          confirmLabel="حذف"
+          destructive
+          onConfirm={() => { handleDelete(deleteTarget!); setDeleteTarget(null); }}
+          onCancel={() => setDeleteTarget(null)}
+        />
       </div>
     </AdminLayout>
   );

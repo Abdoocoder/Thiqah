@@ -4,10 +4,13 @@ import type { Id } from "../../convex/_generated/dataModel";
 import AdminLayout from "./AdminLayout";
 import { Shield, ShieldAlert, UsersRound } from "lucide-react";
 import { TableSkeleton } from "../components/Skeleton";
+import { useEffect } from "react";
 import { useToast } from "../components/useToast";
 import Toast from "../components/Toast";
 
 export default function Users() {
+  useEffect(() => { document.title = "المستخدمين — الثقة"; }, []);
+
   const users = useQuery(api.users.listUsers, {});
   const updateRole = useMutation(api.users.setRole);
   const { showToast, toast } = useToast();

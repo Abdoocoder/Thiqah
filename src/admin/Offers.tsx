@@ -4,12 +4,13 @@ import type { Doc, Id } from "../../convex/_generated/dataModel";
 import AdminLayout from "./AdminLayout";
 import { Plus, Edit2, Trash2, CloudUpload, BadgePercent } from "lucide-react";
 import { CardSkeleton } from "../components/Skeleton";
-import { useState, useRef, useId } from "react";
+import { useState, useRef, useId, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "../components/useToast";
 import Toast from "../components/Toast";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const offerSchema = z.object({
   title: z.string().min(1, "مطلوب"),
@@ -23,6 +24,8 @@ const offerSchema = z.object({
 type OfferFormData = z.infer<typeof offerSchema>;
 
 export default function Offers() {
+  useEffect(() => { document.title = "العروض — الثقة"; }, []);
+
   const offers = useQuery(api.offers.list, {});
   const createOffer = useMutation(api.offers.create);
   const updateOffer = useMutation(api.offers.update);
@@ -32,6 +35,7 @@ export default function Offers() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const { showToast, toast } = useToast();
 
@@ -83,7 +87,6 @@ export default function Offers() {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("هل أنت متأكد من حذف هذا العرض؟")) return;
     try {
       await removeOffer({ id: id as Id<"offers"> });
       showToast("تم حذف العرض", "info");
@@ -176,7 +179,7 @@ export default function Offers() {
                     <p className="text-sm text-on-surface-variant mb-4 line-clamp-2">{offer.descriptionAr}</p>
                     <div className="flex gap-2">
                       <button onClick={() => editOffer(offer)} aria-label="تعديل العرض" className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-outline text-xs font-bold hover:bg-surface-variant active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"><Edit2 size={14} /> تعديل</button>
-                      <button onClick={() => handleDelete(offer._id)} aria-label="حذف العرض" className="flex items-center gap-2 px-4 py-2 rounded-full border border-error-container text-xs font-bold text-error hover:bg-error-container active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150"><Trash2 size={14} /> حذف</button>
+                      <button onClick={() => setDeleteTarget(offer._id)} aria-label="حذف العرض" className="flex items-center gap-2 px-4 py-2 rounded-full border border-error-container text-xs font-bold text-error hover:bg-error-container active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150"><Trash2 size={14} /> حذف</button>
                     </div>
                   </div>
                 </div>
@@ -185,6 +188,15 @@ export default function Offers() {
           </div>
         </div>
         <Toast toast={toast} />
+        <ConfirmDialog
+          open={deleteTarget !== null}
+          title="حذف العرض"
+          message="هل أنت متأكد من حذف هذا العرض؟ لا يمكن التراجع عن هذا الإجراء."
+          confirmLabel="حذف"
+          destructive
+          onConfirm={() => { handleDelete(deleteTarget!); setDeleteTarget(null); }}
+          onCancel={() => setDeleteTarget(null)}
+        />
       </div>
     </AdminLayout>
   );

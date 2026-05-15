@@ -1,7 +1,7 @@
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import AdminLayout from "./AdminLayout";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { TrendingUp, ShoppingCart, AlertTriangle, Package, type LucideIcon } from "lucide-react";
 import { TableSkeleton, ContactSkeleton } from "../components/Skeleton";
 
@@ -58,6 +58,8 @@ const StatCard = memo(function StatCard({
 });
 
 export default function Dashboard() {
+  useEffect(() => { document.title = "نظرة عامة — الثقة"; }, []);
+
   const products = useQuery(api.products.list, {});
   const orders = useQuery(api.orders.list, {});
   const contacts = useQuery(api.contacts.list, {});

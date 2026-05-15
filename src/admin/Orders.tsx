@@ -4,19 +4,23 @@ import type { Id } from "../../convex/_generated/dataModel";
 import AdminLayout from "./AdminLayout";
 import { MessageCircle, Search, X, ShoppingBag } from "lucide-react";
 import { OrderSkeleton } from "../components/Skeleton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { whatsappUrl } from "../lib/whatsapp";
 import Pagination from "../components/Pagination";
 import { useToast } from "../components/useToast";
 import Toast from "../components/Toast";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const statuses = ["جديد", "قيد التجهيز", "قيد المعالجة", "تم الشحن", "تم التوصيل", "مكتمل", "ملغي"];
 
 export default function Orders() {
+  useEffect(() => { document.title = "الطلبات — الثقة"; }, []);
+
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [page, setPage] = useState(1);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
   const pageSize = 15;
 
   const orders = useQuery(api.orders.list, { search: search || undefined, statusFilter: statusFilter || undefined });
@@ -35,7 +39,6 @@ export default function Orders() {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("هل أنت متأكد من حذف هذا الطلب؟")) return;
     try {
       await removeOrder({ id: id as Id<"orders"> });
       showToast("تم حذف الطلب", "info");
@@ -170,7 +173,7 @@ export default function Orders() {
                             target="_blank" rel="noopener noreferrer"
                           className="flex items-center gap-2 px-4 py-2 rounded-full border border-outline-variant text-xs font-bold hover:bg-surface-container-low active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"><MessageCircle size={14} /> واتساب</a>
 
-                        <button onClick={() => handleDelete(order._id)}
+                        <button onClick={() => setDeleteTarget(order._id)}
                           className="px-4 py-2 rounded-full border border-error-container text-xs font-bold text-error hover:bg-error-container active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150">حذف</button>
                         </div>
                       </div>
@@ -183,6 +186,15 @@ export default function Orders() {
           </>
         )}
         <Toast toast={toast} />
+        <ConfirmDialog
+          open={deleteTarget !== null}
+          title="حذف الطلب"
+          message="هل أنت متأكد من حذف هذا الطلب؟ لا يمكن التراجع عن هذا الإجراء."
+          confirmLabel="حذف"
+          destructive
+          onConfirm={() => { handleDelete(deleteTarget!); setDeleteTarget(null); }}
+          onCancel={() => setDeleteTarget(null)}
+        />
       </div>
     </AdminLayout>
   );

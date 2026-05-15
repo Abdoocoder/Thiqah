@@ -4,12 +4,13 @@ import type { Doc, Id } from "../../convex/_generated/dataModel";
 import AdminLayout from "./AdminLayout";
 import { Plus, Edit2, Trash2, CloudUpload, Package, PackagePlus } from "lucide-react";
 import { CardSkeleton } from "../components/Skeleton";
-import { useState, useRef, useId, type ReactNode } from "react";
+import { useState, useRef, useId, useEffect, type ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "../components/useToast";
 import Toast from "../components/Toast";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const productSchema = z.object({
   name: z.string().min(1, "مطلوب"),
@@ -32,6 +33,8 @@ const categories = [
 ];
 
 export default function Products() {
+  useEffect(() => { document.title = "المنتجات — الثقة"; }, []);
+
   const products = useQuery(api.products.list, {});
   const createProduct = useMutation(api.products.create);
   const updateProduct = useMutation(api.products.update);
@@ -41,6 +44,7 @@ export default function Products() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const { showToast, toast } = useToast();
 
@@ -94,7 +98,6 @@ export default function Products() {
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("هل أنت متأكد من حذف هذا المنتج؟")) return;
     try {
       await removeProduct({ id: id as Id<"products"> });
       showToast("تم حذف المنتج", "info");
@@ -179,12 +182,12 @@ export default function Products() {
                 <div key={product._id} className="bg-surface rounded-2xl overflow-hidden border border-surface-container-highest group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]"
                   style={{ animation: `fadeSlideUp 300ms ease-out forwards`, animationDelay: `${idx * 40}ms` }}>
                   <div className="relative aspect-[4/3] bg-surface-container-low">
-                    <img src={product.imageUrl || "/placeholder.svg"} alt={product.nameAr}
+                    <img src={product.imageUrl || "/placeholder.svg"} alt={product.nameAr} loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-105" />
                     <div className="absolute top-4 right-4 flex gap-2">
                       <button onClick={() => editProduct(product)} aria-label="تعديل المنتج"
                         className="w-11 h-11 rounded-full bg-surface/90 backdrop-blur flex items-center justify-center text-on-surface hover:text-primary active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"><Edit2 size={16} /></button>
-                      <button onClick={() => handleDelete(product._id)} aria-label="حذف المنتج"
+                      <button onClick={() => setDeleteTarget(product._id)} aria-label="حذف المنتج"
                         className="w-11 h-11 rounded-full bg-surface/90 backdrop-blur flex items-center justify-center text-error hover:bg-error-container active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"><Trash2 size={16} /></button>
                     </div>
                   </div>
@@ -202,6 +205,15 @@ export default function Products() {
           </div>
         </div>
         <Toast toast={toast} />
+        <ConfirmDialog
+          open={deleteTarget !== null}
+          title="حذف المنتج"
+          message="هل أنت متأكد من حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء."
+          confirmLabel="حذف"
+          destructive
+          onConfirm={() => { handleDelete(deleteTarget!); setDeleteTarget(null); }}
+          onCancel={() => setDeleteTarget(null)}
+        />
       </div>
     </AdminLayout>
   );
