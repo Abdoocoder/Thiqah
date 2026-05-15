@@ -53,12 +53,12 @@ export default function PageLoader({ onComplete }: { onComplete: () => void }) {
       ref={containerRef}
       className="fixed inset-0 z-[100] bg-inverse-surface flex flex-col items-center justify-center"
       >
-        <div ref={textRef} className="flex flex-col items-center gap-4">
-          <img src="/logo.png" alt="الثقة" className="w-20 h-20 md:w-28 md:h-28" />
-          <h1 className="text-4xl md:text-6xl font-bold text-on-inverse tracking-tight">
-            الثقة
-          </h1>
-        </div>
+        <h1
+          ref={textRef}
+          className="text-4xl md:text-6xl font-bold text-on-inverse tracking-tight"
+      >
+        الثقة
+      </h1>
       <p className="text-on-inverse/40 text-sm mt-4 tracking-widest uppercase text-[10px]">
         جودة وكفالة
       </p>

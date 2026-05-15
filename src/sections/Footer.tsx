@@ -14,10 +14,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 text-right">
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <img src="/logo.png" alt="الثقة للمنتجات البلدية" className="h-10 w-10" />
-              <h4 className="text-2xl font-bold">الثقة للمنتجات البلدية</h4>
-            </div>
+            <h4 className="text-2xl font-bold mb-4">الثقة للمنتجات البلدية</h4>
             <p className="text-sm opacity-60 leading-relaxed">
               منتجات بلدية طازجة من مزارعنا في مأدبا إلى مائدتكم. جودة وكفالة.
             </p>
