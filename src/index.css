@@ -1,0 +1,43 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Noto+Sans+Arabic:wght@400;500;700&display=swap');
+
+@theme {
+  --font-sans: "DM Sans", "Noto Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-primary: #3e5219;
+  --color-primary-container: #556b2f;
+  --color-on-primary-container: #d0eba1;
+  --color-background: #fbf9f9;
+  --color-surface: #fbf9f9;
+  --color-surface-container: #efeded;
+  --color-surface-container-low: #f5f3f3;
+  --color-surface-container-high: #e9e8e7;
+  --color-surface-container-highest: #e4e2e2;
+  --color-on-surface: #1b1c1c;
+  --color-on-surface-variant: #45483c;
+  --color-outline: #75796b;
+  --color-outline-variant: #c5c8b8;
+  --color-tertiary: #4b4c49;
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+
+  --spacing-margin-desktop: 80px;
+  --spacing-margin-mobile: 20px;
+  --spacing-section-gap: 120px;
+  --spacing-stack-lg: 32px;
+  --spacing-stack-md: 16px;
+  --spacing-stack-sm: 8px;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-surface antialiased;
+  }
+}
+
+.parallax-bg {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

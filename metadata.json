@@ -1,0 +1,6 @@
+{
+  "name": "Al-Thiqah Heritage",
+  "description": "Authentic Jordanian products from the heart of Madaba, featuring premium olive oil, cheeses, and ghee.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
