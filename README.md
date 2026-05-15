@@ -1,7 +1,6 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6">
-  <img width="1200" height="475" alt="Thiqah Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6">
-</picture>
+<p align="center">
+  <img src="public/logo.png" width="120" height="120" alt="Thiqah Logo">
+</p>
 
 <p align="center">
   <strong>الثقة للمنتجات البلدية</strong> — Al-Thiqah Local Products

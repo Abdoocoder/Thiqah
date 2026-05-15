@@ -102,8 +102,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         }`}
       >
         <div className="mb-8 flex items-center justify-between px-4">
-          <Link to="/" className="text-2xl font-bold text-on-surface relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:bg-primary after:transition-[width] after:duration-200 after:ease-[cubic-bezier(0.23,1,0.32,1)] after:w-0 hover:after:w-full">
-            الثقة
+          <Link to="/" className="flex items-center gap-3">
+            <img src="/logo.png" alt="الثقة" className="h-9 w-9" />
+            <span className="text-xl font-bold text-on-surface">الثقة</span>
           </Link>
           <button ref={closeRef} onClick={() => setSidebarOpen(false)}
             aria-label="إغلاق القائمة"

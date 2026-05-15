@@ -35,7 +35,10 @@ export default function Navbar() {
           >
             {open ? <X size={24} /> : <Menu size={24} />}
           </button>
-          <h1 className="text-2xl font-bold text-primary">الثقة للمنتجات البلدية</h1>
+          <a href="/" className="flex items-center gap-3">
+            <img src="/logo.png" alt="الثقة للمنتجات البلدية" className="h-10 w-10" />
+            <span className="text-lg font-bold text-primary">الثقة للمنتجات البلدية</span>
+          </a>
           <nav className="hidden lg:flex items-center gap-8 mr-8">
             {links.map((l) => (
               <a
