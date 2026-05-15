@@ -1,31 +1,45 @@
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import AdminLayout from "./AdminLayout";
+import { memo } from "react";
 import { TrendingUp, ShoppingCart, AlertTriangle, Package, type LucideIcon } from "lucide-react";
+import { TableSkeleton, ContactSkeleton } from "../components/Skeleton";
 
-function StatCard({
+const FloatIcon = memo(function FloatIcon({ icon: Icon, destructive }: { icon: LucideIcon; destructive?: boolean }) {
+  return (
+    <Icon
+      size={18}
+      className={destructive ? "text-error" : "text-primary"}
+      style={{ animation: "float 3s ease-in-out infinite" }}
+    />
+  );
+});
+
+const StatCard = memo(function StatCard({
   title,
   value,
   icon: Icon,
   sub,
   destructive,
+  idx = 0,
 }: {
   title: string;
   value: string;
   icon: LucideIcon;
   sub?: string;
   destructive?: boolean;
+  idx?: number;
 }) {
   return (
-    <div className="bg-surface rounded-xl p-6 border border-surface-container-highest flex flex-col justify-between shadow-sm text-right">
+    <div
+      className="bg-surface rounded-xl p-6 border border-surface-container-highest flex flex-col justify-between shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)] text-right transition-shadow duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+      style={{ animation: `countIn 250ms ease-out forwards`, animationDelay: `${idx * 60}ms` }}
+    >
       <div className="flex justify-between items-start flex-row-reverse">
-        <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
+        <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">
           {title}
         </span>
-        <Icon
-          size={18}
-          className={destructive ? "text-error" : "text-primary"}
-        />
+        <FloatIcon icon={Icon} destructive={destructive} />
       </div>
       <div>
         <p className="text-3xl font-bold mb-1">{value}</p>
@@ -41,7 +55,7 @@ function StatCard({
       </div>
     </div>
   );
-}
+});
 
 export default function Dashboard() {
   const products = useQuery(api.products.list, {});
@@ -85,18 +99,21 @@ export default function Dashboard() {
             value={`${totalSales} د.أ`}
             icon={TrendingUp}
             sub={`${orders?.length || 0} طلب`}
+            idx={0}
           />
           <StatCard
             title="الطلبات النشطة"
             value={`${activeOrders}`}
             icon={ShoppingCart}
             sub="قيد المعالجة"
+            idx={1}
           />
           <StatCard
             title="المنتجات"
             value={`${totalProducts}`}
             icon={Package}
             sub={`${offers?.length || 0} عرض نشط`}
+            idx={2}
           />
           <StatCard
             title="مخزون منخفض"
@@ -104,17 +121,18 @@ export default function Dashboard() {
             icon={AlertTriangle}
             sub="أقل من 20 قطعة"
             destructive={lowStock > 0}
+            idx={3}
           />
         </div>
 
         {/* Recent Orders */}
-        <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-sm">
+        <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)]">
           <div className="p-6 border-b border-surface-container-highest flex justify-between items-center flex-row-reverse">
             <h3 className="text-xl font-bold">أحدث الطلبات</h3>
           </div>
           {!orders ? (
-            <div className="p-12 text-center text-on-surface-variant animate-pulse">
-              جاري التحميل...
+            <div className="p-6">
+              <TableSkeleton rows={4} />
             </div>
           ) : orders.length === 0 ? (
             <div className="p-12 text-center text-on-surface-variant">
@@ -123,7 +141,7 @@ export default function Dashboard() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-right" dir="rtl">
-                <thead className="bg-surface-container-low text-on-surface-variant text-[10px] uppercase tracking-widest">
+                <thead className="bg-surface-container-low text-on-surface-variant text-xs uppercase tracking-widest">
                   <tr>
                     <th className="py-4 px-6 font-normal">رقم الطلب</th>
                     <th className="py-4 px-6 font-normal">العميل</th>
@@ -132,17 +150,18 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-surface-container-highest">
-                  {orders.slice(0, 5).map((order) => (
+                  {orders.slice(0, 5).map((order, idx) => (
                     <tr
                       key={order._id}
                       className="hover:bg-surface-container-low transition-colors"
+                      style={{ animation: `fadeSlideUp 300ms ease-out forwards`, animationDelay: `${idx * 60}ms` }}
                     >
                       <td className="py-4 px-6 font-medium">
                         {order._id.slice(-6)}
                       </td>
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-3 flex-row-reverse">
-                          <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-[10px] font-bold">
+                          <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs font-bold">
                             {order.customerName[0]}
                           </div>
                           <span className="text-sm">
@@ -152,11 +171,11 @@ export default function Dashboard() {
                       </td>
                       <td className="py-4 px-6">
                         <span
-                          className={`px-3 py-1 rounded-full text-[10px] font-bold ${
+                          className={`px-3 py-1 rounded-full text-xs font-bold ${
                             order.status === "جديد"
                               ? "bg-primary-container text-on-primary-container"
-                              : order.status === "تم التوصيل" || order.status === "مكتمل"
-                              ? "bg-emerald-50 text-emerald-700"
+                              :                             order.status === "تم التوصيل" || order.status === "مكتمل"
+                              ? "bg-success-container text-success"
                               : "bg-surface-container-highest"
                           }`}
                         >
@@ -175,13 +194,13 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Contacts */}
-        <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-sm">
+        <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)]">
           <div className="p-6 border-b border-surface-container-highest flex justify-between items-center flex-row-reverse">
             <h3 className="text-xl font-bold">أحدث الرسائل</h3>
           </div>
           {!contacts ? (
-            <div className="p-12 text-center text-on-surface-variant animate-pulse">
-              جاري التحميل...
+            <div className="p-6 space-y-4">
+              {Array.from({ length: 3 }).map((_, i) => <ContactSkeleton key={i} />)}
             </div>
           ) : contacts.length === 0 ? (
             <div className="p-12 text-center text-on-surface-variant">
@@ -189,12 +208,13 @@ export default function Dashboard() {
             </div>
           ) : (
             <div className="divide-y divide-surface-container-highest">
-              {contacts.slice(0, 3).map((contact) => (
+              {contacts.slice(0, 3).map((contact, idx) => (
                 <div
                   key={contact._id}
                   className={`p-6 flex items-start gap-4 flex-row-reverse ${
                     !contact.read ? "bg-primary-container/10" : ""
                   }`}
+                  style={{ animation: `fadeSlideUp 300ms ease-out forwards`, animationDelay: `${idx * 60}ms` }}
                 >
                   <div className="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-sm font-bold shrink-0">
                     {contact.name[0]}
@@ -202,7 +222,7 @@ export default function Dashboard() {
                   <div className="flex-1 min-w-0 text-right">
                     <div className="flex justify-between items-center flex-row-reverse">
                       <h4 className="font-bold text-sm">{contact.name}</h4>
-                      <span className="text-[10px] text-on-surface-variant">
+                      <span className="text-xs text-on-surface-variant">
                         {new Date(contact.createdAt).toLocaleDateString("ar-JO")}
                       </span>
                     </div>

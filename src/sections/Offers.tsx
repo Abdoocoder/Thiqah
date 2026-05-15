@@ -102,7 +102,7 @@ export default function Offers() {
                 </p>
                 <button
                   onClick={() => openWhatsapp(orderMessage(offer.titleAr))}
-                  className="inline-flex items-center gap-2 bg-black text-white px-6 py-3 rounded-full text-xs font-bold tracking-widest uppercase hover:bg-primary transition-colors"
+                  className="inline-flex items-center gap-2 bg-inverse-surface text-on-inverse px-6 py-3 rounded-full text-xs font-bold tracking-widest uppercase hover:bg-primary transition-colors"
                 >
                   <MessageCircle size={16} />
                   اطلب العرض

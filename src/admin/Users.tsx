@@ -2,7 +2,8 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Id } from "../../convex/_generated/dataModel";
 import AdminLayout from "./AdminLayout";
-import { Shield, ShieldAlert } from "lucide-react";
+import { Shield, ShieldAlert, UsersRound } from "lucide-react";
+import { TableSkeleton } from "../components/Skeleton";
 import { useToast } from "../components/useToast";
 import Toast from "../components/Toast";
 
@@ -30,14 +31,20 @@ export default function Users() {
         </div>
 
         {!users ? (
-          <div className="p-12 text-center text-on-surface-variant animate-pulse">جاري التحميل...</div>
+          <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden">
+            <TableSkeleton rows={4} />
+          </div>
         ) : users.length === 0 ? (
-          <div className="p-12 text-center text-on-surface-variant">لا يوجد مستخدمون</div>
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <UsersRound size={48} className="text-outline-variant mb-4" />
+            <h3 className="text-xl font-bold mb-2">لا يوجد مستخدمون</h3>
+            <p className="text-on-surface-variant">لم يتم تسجيل أي مستخدمين في النظام بعد</p>
+          </div>
         ) : (
-          <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-sm">
+          <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)]">
             <div className="overflow-x-auto">
               <table className="w-full text-right" dir="rtl">
-                <thead className="bg-surface-container-low text-on-surface-variant text-[10px] uppercase tracking-widest">
+                <thead className="bg-surface-container-low text-on-surface-variant text-xs uppercase tracking-widest">
                   <tr>
                     <th className="py-4 px-6 font-normal">الاسم</th>
                     <th className="py-4 px-6 font-normal">المعرف</th>
@@ -50,7 +57,7 @@ export default function Users() {
                     <tr key={u._id} className="hover:bg-surface-container-low transition-colors">
                       <td className="py-4 px-6">
                         <div className="flex items-center gap-3 flex-row-reverse">
-                          <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-[10px] font-bold">
+                          <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs font-bold">
                             {u.name?.[0] || "م"}
                           </div>
                           <span className="text-sm font-medium">{u.name || "بدون اسم"}</span>
@@ -64,8 +71,8 @@ export default function Users() {
                         </span>
                       </td>
                       <td className="py-4 px-6">
-                        <select value={u.role} onChange={(e) => handleRoleChange(u._id, e.target.value as "admin" | "employee")}
-                          className="border border-outline-variant rounded-full px-3 py-1.5 text-xs font-bold bg-transparent focus:outline-none focus:border-primary">
+                        <select value={u.role} aria-label="تغيير صلاحية المستخدم" onChange={(e) => handleRoleChange(u._id, e.target.value as "admin" | "employee")}
+                          className="border border-outline-variant rounded-full px-3 py-1.5 text-xs font-bold bg-transparent focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40 active:scale-[0.98] transition-[background-color,transform]">
                           <option value="admin">مدير</option>
                           <option value="employee">موظف</option>
                         </select>

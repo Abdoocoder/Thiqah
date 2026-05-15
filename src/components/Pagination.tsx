@@ -19,7 +19,8 @@ export default function Pagination({
       <button
         onClick={() => onChange(Math.max(1, current - 1))}
         disabled={current <= 1}
-        className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        aria-label="الصفحة السابقة"
+        className="w-11 h-11 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-variant active:scale-[0.92] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition-[background-color,transform,opacity] disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100"
       >
         <ChevronRight size={16} />
       </button>
@@ -27,11 +28,12 @@ export default function Pagination({
         <button
           key={p}
           onClick={() => onChange(p)}
-          className={`w-10 h-10 rounded-full text-sm font-bold transition-colors ${
+          className={`w-11 h-11 rounded-full text-sm font-bold active:scale-[0.92] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition-[background-color,transform] ${
             p === current
-              ? "bg-black text-white"
+              ? "bg-inverse-surface text-on-inverse"
               : "text-on-surface-variant hover:bg-surface-variant"
           }`}
+          aria-current={p === current ? "page" : undefined}
         >
           {p}
         </button>
@@ -39,7 +41,8 @@ export default function Pagination({
       <button
         onClick={() => onChange(Math.min(pages, current + 1))}
         disabled={current >= pages}
-        className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+        aria-label="الصفحة التالية"
+        className="w-11 h-11 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-variant active:scale-[0.92] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition-[background-color,transform,opacity] disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100"
       >
         <ChevronLeft size={16} />
       </button>

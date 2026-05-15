@@ -9,8 +9,9 @@ import {
   Menu,
   Percent,
   Users,
+  X,
 } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
 
 const allMenuItems = [
   { icon: LayoutDashboard, label: "نظرة عامة", path: "/admin", minRole: null },
@@ -27,6 +28,41 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarRef = useRef<HTMLElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (sidebarOpen) {
+      closeRef.current?.focus();
+    } else {
+      hamburgerRef.current?.focus();
+    }
+  }, [sidebarOpen]);
+
+  const handleTabTrap = useCallback((e: KeyboardEvent) => {
+    if (!sidebarOpen || !sidebarRef.current) return;
+    const focusable = sidebarRef.current.querySelectorAll<HTMLElement>(
+      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.key === "Tab") {
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }, [sidebarOpen]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleTabTrap);
+    return () => document.removeEventListener("keydown", handleTabTrap);
+  }, [handleTabTrap]);
 
   if (!isLoaded) {
     return (
@@ -52,23 +88,28 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex bg-background min-h-screen" dir="rtl">
       {/* Mobile overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/30 z-30 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+      <div
+        className={`fixed inset-0 bg-inverse-surface/30 z-30 lg:hidden transition-opacity duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] will-change-opacity ${
+          sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setSidebarOpen(false)} aria-hidden="true"
+      />
 
       {/* Sidebar */}
-      <aside
-        className={`fixed lg:sticky top-0 right-0 h-full w-72 bg-surface border-l border-surface-container-highest flex flex-col p-6 z-40 transition-transform duration-300 ${
+      <aside ref={sidebarRef}
+        className={`fixed lg:sticky top-0 right-0 h-full w-72 bg-surface border-l border-surface-container-highest flex flex-col p-6 z-40 transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] will-change-transform ${
           sidebarOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
         }`}
       >
-        <div className="mb-8 flex items-center px-4">
-          <Link to="/" className="text-2xl font-bold text-on-surface">
+        <div className="mb-8 flex items-center justify-between px-4">
+          <Link to="/" className="text-2xl font-bold text-on-surface relative after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:bg-primary after:transition-[width] after:duration-200 after:ease-[cubic-bezier(0.23,1,0.32,1)] after:w-0 hover:after:w-full">
             الثقة
           </Link>
+          <button ref={closeRef} onClick={() => setSidebarOpen(false)}
+            aria-label="إغلاق القائمة"
+            className="lg:hidden w-11 h-11 text-on-surface-variant hover:text-on-surface active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition rounded-lg flex items-center justify-center">
+            <X size={20} />
+          </button>
         </div>
 
         <div className="flex items-center gap-4 px-4 mb-10">
@@ -79,7 +120,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <h3 className="text-sm font-bold">
               {user?.fullName || "مستخدم"}
             </h3>
-            <p className="text-[10px] text-on-surface-variant uppercase tracking-wider">
+            <p className="text-xs text-on-surface-variant uppercase tracking-wider">
               مدير
             </p>
           </div>
@@ -90,9 +131,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex items-center gap-4 px-4 py-3 rounded-full transition-all ${
+              className={`flex items-center gap-4 px-4 py-3 rounded-full active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150 ${
                 location.pathname === item.path
-                  ? "bg-primary text-white"
+                  ? "bg-primary text-on-primary"
                   : "text-on-surface-variant hover:bg-surface-variant"
               }`}
               onClick={() => setSidebarOpen(false)}
@@ -104,7 +145,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </nav>
 
         <SignOutButton redirectUrl="/">
-          <button className="flex items-center gap-4 px-4 py-3 text-error hover:bg-error-container hover:text-on-error-container rounded-full transition-colors mt-auto w-full">
+          <button className="flex items-center gap-4 px-4 py-3 text-error hover:bg-error-container hover:text-on-error-container rounded-full active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150 mt-auto w-full">
             <LogOut size={20} />
             <span className="text-sm font-medium">تسجيل خروج</span>
           </button>
@@ -114,9 +155,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       {/* Main Content */}
       <main className="flex-1 min-h-screen">
         <header className="sticky top-0 z-20 bg-surface/80 backdrop-blur-md border-b border-surface-container-highest px-4 lg:px-8 py-4 flex justify-between items-center h-16 lg:h-20">
-          <button
-            className="lg:hidden text-on-surface-variant hover:text-on-surface"
-            onClick={() => setSidebarOpen(true)}
+          <button ref={hamburgerRef}
+            className="lg:hidden text-on-surface-variant hover:text-on-surface active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition-transform rounded-lg"
+            onClick={() => setSidebarOpen(true)} aria-label="فتح القائمة"
           >
             <Menu size={24} />
           </button>

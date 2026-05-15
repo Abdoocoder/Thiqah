@@ -51,15 +51,15 @@ export default function PageLoader({ onComplete }: { onComplete: () => void }) {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center"
-    >
-      <h1
-        ref={textRef}
-        className="text-4xl md:text-6xl font-bold text-white tracking-tight"
+      className="fixed inset-0 z-[100] bg-inverse-surface flex flex-col items-center justify-center"
+      >
+        <h1
+          ref={textRef}
+          className="text-4xl md:text-6xl font-bold text-on-inverse tracking-tight"
       >
         الثقة
       </h1>
-      <p className="text-white/40 text-sm mt-4 tracking-widest uppercase text-[10px]">
+      <p className="text-on-inverse/40 text-sm mt-4 tracking-widest uppercase text-[10px]">
         جودة وكفالة
       </p>
       <div

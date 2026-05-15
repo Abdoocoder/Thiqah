@@ -45,7 +45,7 @@ export default function Story() {
   return (
     <section id="story"
       ref={sectionRef}
-      className="relative py-32 overflow-hidden bg-black text-white flex items-center min-h-[600px] scroll-mt-20"
+      className="relative py-32 overflow-hidden bg-inverse-surface text-on-inverse flex items-center min-h-[600px] scroll-mt-20"
     >
       <div className="absolute inset-0 z-0">
         <div
@@ -69,7 +69,8 @@ export default function Story() {
             التقاليد الزراعية القديمة ونمزجها بمعايير العصر الحديث لتقديم منتجات بلدية
             ترقى لتوقعاتكم.
           </p>
-          <button className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-white text-white text-xs font-bold tracking-wider uppercase hover:bg-white hover:text-black transition-all duration-300">
+          <button onClick={() => { const el = document.getElementById("products"); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }}
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-on-inverse text-on-inverse text-xs font-bold tracking-wider uppercase hover:bg-on-inverse hover:text-inverse-surface transition-[background-color,color] duration-300">
             اكتشف المزيد
           </button>
         </div>

@@ -76,6 +76,7 @@ export default function Contact() {
           <input
             type="text"
             placeholder="الاسم الكامل"
+            aria-label="الاسم الكامل"
             {...register("name")}
             className="w-full bg-surface border border-surface-container-highest rounded-xl px-6 py-4 text-sm focus:outline-none focus:border-primary transition-colors text-right"
           />
@@ -88,6 +89,7 @@ export default function Contact() {
           <input
             type="email"
             placeholder="البريد الإلكتروني"
+            aria-label="البريد الإلكتروني"
             {...register("email")}
             className="w-full bg-surface border border-surface-container-highest rounded-xl px-6 py-4 text-sm focus:outline-none focus:border-primary transition-colors text-right"
           />
@@ -100,6 +102,7 @@ export default function Contact() {
           <input
             type="tel"
             placeholder="رقم الهاتف"
+            aria-label="رقم الهاتف"
             {...register("phone")}
             className="w-full bg-surface border border-surface-container-highest rounded-xl px-6 py-4 text-sm focus:outline-none focus:border-primary transition-colors text-right"
           />
@@ -112,6 +115,7 @@ export default function Contact() {
           <textarea
             rows={4}
             placeholder="رسالتك..."
+            aria-label="رسالتك"
             {...register("message")}
             className="w-full bg-surface border border-surface-container-highest rounded-xl px-6 py-4 text-sm focus:outline-none focus:border-primary transition-colors resize-none text-right"
           />
@@ -130,7 +134,7 @@ export default function Contact() {
           <button
             type="submit"
             disabled={sending}
-            className="flex-1 bg-black text-white px-8 py-4 rounded-full text-xs font-bold tracking-widest uppercase hover:bg-primary transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="flex-1 bg-inverse-surface text-on-inverse px-8 py-4 rounded-full text-xs font-bold tracking-widest uppercase hover:bg-primary transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
             <Send size={16} />
             {sending ? "جاري الإرسال..." : "إرسال"}
@@ -141,7 +145,7 @@ export default function Contact() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-6 py-4 rounded-full border border-outline text-xs font-bold tracking-widest hover:bg-surface-container-low transition-colors"
           >
-            <MessageCircle size={16} className="text-[#25D366]" />
+            <MessageCircle size={16} className="text-whatsapp" />
             واتساب
           </a>
         </div>

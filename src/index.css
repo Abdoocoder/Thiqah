@@ -21,17 +21,93 @@
   --color-error: #ba1a1a;
   --color-error-container: #ffdad6;
 
+  --color-inverse-surface: #1c1d1d;
+  --color-on-inverse: #f0efee;
+  --color-on-primary: #f5f4ed;
+  --color-surface-variant: #e9e8e7;
+  --color-on-error-container: #410002;
+
+  --color-whatsapp: #25D366;
+  --color-success: #059669;
+  --color-success-container: #ecfdf5;
+  --color-warning: #d97706;
+  --color-warning-container: #fffbeb;
+  --color-info: #2563eb;
+  --color-info-container: #eff6ff;
+
   --spacing-margin-desktop: 80px;
   --spacing-margin-mobile: 20px;
   --spacing-section-gap: 120px;
   --spacing-stack-lg: 32px;
   --spacing-stack-md: 16px;
   --spacing-stack-sm: 8px;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 @layer base {
   body {
     @apply bg-background text-on-surface antialiased;
+  }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes countIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

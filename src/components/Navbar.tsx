@@ -30,7 +30,8 @@ export default function Navbar() {
         <div className="flex items-center gap-6">
           <button
             onClick={() => setOpen(!open)}
-            className="text-primary hover:text-black transition-colors lg:hidden"
+            aria-label="القائمة" aria-expanded={open}
+            className="text-primary hover:text-on-surface transition-colors lg:hidden rounded-lg active:scale-90 focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none w-11 h-11 flex items-center justify-center"
           >
             {open ? <X size={24} /> : <Menu size={24} />}
           </button>

@@ -58,7 +58,7 @@ export default function Hero() {
   ));
 
   return (
-    <section id="hero" ref={sectionRef} className="relative h-screen flex items-center justify-center overflow-hidden scroll-mt-20">
+    <section id="hero" ref={sectionRef} className="relative h-dvh flex items-center justify-center overflow-hidden scroll-mt-20">
       <div
         ref={bgRef}
         className="absolute inset-0 z-0 bg-cover bg-center"
@@ -66,20 +66,20 @@ export default function Hero() {
           backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuDD4gG2wh2XMtpm3HCp4xDtZeL7avCF1ArxfOndRIE8zgDXRlNIlV4qAjkm87uu9QVnex3s1W_EpVYSezGaGOunbvKe9Ohxjrb-eYkBeUi3ShBCq54z1E2lZ0kL58_72-K3nBMFeJz3-3e6HPxlemF6zqbLHudgU97Aj2IEICJl75Hh08LgN9LdURa6aHsRJ1lcu0ha6JN1PKIwmCfpQDHDanphtu1U07c-nXpmfhHg3iGmUVgON3DLwM3nZ27SE9lkOjM5RRKJXKTG')`,
         }}
       >
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-inverse-surface/40" />
       </div>
 
       <div className="relative z-10 text-center px-6">
         <h2
           ref={titleRef}
-          className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight flex flex-wrap justify-center gap-x-4"
+          className="text-5xl sm:text-4xl md:text-7xl font-bold text-on-inverse mb-8 tracking-tight flex flex-wrap justify-center gap-x-4"
         >
           {words}
         </h2>
         <div ref={ctaRef}>
           <button
             onClick={() => openWhatsapp(orderMessage("منتجات الثقة"))}
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full transition-all duration-300 font-semibold tracking-wider uppercase text-xs bg-black text-white hover:bg-primary"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full transition-colors duration-300 font-semibold tracking-wider uppercase text-xs bg-inverse-surface text-on-inverse hover:bg-primary"
           >
             <MessageCircle size={20} />
             اطلب الآن عبر واتساب

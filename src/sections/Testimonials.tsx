@@ -47,7 +47,7 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <section id="testimonials" ref={sectionRef} className="py-24 px-6 bg-black text-white overflow-hidden scroll-mt-20">
+    <section id="testimonials" ref={sectionRef} className="py-24 px-6 bg-inverse-surface text-on-inverse overflow-hidden scroll-mt-20">
       <div className="max-w-7xl mx-auto w-full text-right">
         <div className="mb-16">
           <span className="text-[10px] font-bold text-primary uppercase tracking-[0.3em] mb-4 block">
@@ -77,7 +77,7 @@ export default function Testimonials() {
                 </div>
                 <div className="text-right">
                   <h4 className="font-bold text-sm">{t.name}</h4>
-                  <p className="text-[10px] text-white/40 uppercase tracking-widest">
+                  <p className="text-[10px] text-on-inverse/40 uppercase tracking-widest">
                     {t.location}
                   </p>
                 </div>

@@ -10,7 +10,7 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-black pt-16 pb-8 px-6 text-white">
+    <footer className="bg-inverse-surface pt-16 pb-8 px-6 text-on-inverse">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 text-right">
           <div>
@@ -43,12 +43,12 @@ export default function Footer() {
               href={whatsappUrl(generalInquiry())}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[#25D366] hover:text-[#25D366]/80 transition-colors mb-4"
+              className="inline-flex items-center gap-2 text-whatsapp hover:text-whatsapp/80 transition-colors mb-4"
             >
               <MessageCircle size={18} />
               <span className="text-sm font-bold">0779248914</span>
             </a>
-            <p className="text-sm opacity-60">مأدبا – الأردن</p>
+            <p className="text-sm opacity-60">مأدبا، الأردن</p>
           </div>
         </div>
 
@@ -62,7 +62,7 @@ export default function Footer() {
               href="https://www.abdoocoder.dev/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
+              className="hover:text-on-inverse transition-colors"
             >
               Abdoo Coder
             </a>

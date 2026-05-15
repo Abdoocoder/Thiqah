@@ -2,8 +2,9 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import AdminLayout from "./AdminLayout";
-import { Plus, Edit2, Trash2, CloudUpload } from "lucide-react";
-import { useState, useRef, type ReactNode } from "react";
+import { Plus, Edit2, Trash2, CloudUpload, Package, PackagePlus } from "lucide-react";
+import { CardSkeleton } from "../components/Skeleton";
+import { useState, useRef, useId, type ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -112,7 +113,7 @@ export default function Products() {
             <p className="text-on-surface-variant">إضافة وتعديل المنتجات المتاحة</p>
           </div>
           <button onClick={() => { resetForm(); setShowForm(true); }}
-            className="bg-black text-white px-6 py-3 rounded-full flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase hover:bg-primary transition-all">
+            className="bg-inverse-surface text-on-inverse px-6 py-3 rounded-full flex items-center gap-2 text-xs font-bold tracking-widest uppercase hover:bg-primary active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150">
             <Plus size={16} /> إضافة منتج
           </button>
         </div>
@@ -122,16 +123,17 @@ export default function Products() {
             <div className="xl:col-span-1 bg-surface-container-low rounded-2xl p-6 lg:p-8 border border-surface-container-highest h-fit sticky top-28">
               <h3 className="text-xl font-bold mb-6">{editingId ? "تعديل منتج" : "منتج جديد"}</h3>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div onClick={() => fileRef.current?.click()}
-                  className="aspect-square bg-surface border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-white transition-colors group">
+                <label tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileRef.current?.click(); } }}
+                  className="aspect-square bg-surface border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-surface-container transition-colors group focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none">
                   {selectedFile ? (
-                    <img src={URL.createObjectURL(selectedFile)} alt="preview" className="w-full h-full object-cover rounded-xl" />
+                    <img src={URL.createObjectURL(selectedFile)} alt="معاينة الصورة" className="w-full h-full object-cover rounded-xl" />
                   ) : (
                     <><CloudUpload size={40} className="text-outline-variant mb-4 group-hover:text-primary transition-colors" />
-                      <span className="text-[10px] font-bold text-outline-variant uppercase tracking-wider group-hover:text-primary transition-colors text-center px-4">اسحب الصورة هنا أو اضغط للرفع</span></>
+                      <span className="text-xs font-bold text-outline-variant uppercase tracking-wider group-hover:text-primary transition-colors text-center px-4">اسحب الصورة هنا أو اضغط للرفع</span></>
                   )}
-                </div>
-                <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => setSelectedFile(e.target.files?.[0] || null)} />
+                  <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => setSelectedFile(e.target.files?.[0] || null)} />
+                </label>
 
                 <InputField label="الاسم (عربي)" error={errors.nameAr?.message} {...register("nameAr")} />
                 <InputField label="الاسم (إنجليزي)" error={errors.name?.message} {...register("name")} />
@@ -149,11 +151,11 @@ export default function Products() {
 
                 <div className="flex gap-4 pt-4">
                   <button type="submit" disabled={isSubmitting}
-                    className="flex-1 bg-black text-white py-4 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-primary transition-colors disabled:opacity-50">
+                    className="flex-1 bg-inverse-surface text-on-inverse py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-primary active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150 disabled:opacity-50 disabled:active:scale-100">
                     {isSubmitting ? "جاري الحفظ..." : editingId ? "حفظ التغييرات" : "إضافة المنتج"}
                   </button>
                   <button type="button" onClick={resetForm}
-                    className="px-6 py-4 rounded-full border border-outline text-[10px] font-bold uppercase tracking-widest hover:bg-surface-variant transition-colors">إلغاء</button>
+                    className="px-6 py-4 rounded-full border border-outline text-xs font-bold uppercase tracking-widest hover:bg-surface-variant active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150">إلغاء</button>
                 </div>
               </form>
             </div>
@@ -161,27 +163,36 @@ export default function Products() {
 
           <div className={`${showForm ? "xl:col-span-2" : "xl:col-span-3"} grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6`}>
             {!products ? (
-              <div className="col-span-full p-12 text-center text-on-surface-variant animate-pulse">جاري التحميل...</div>
+              Array.from({ length: 6 }).map((_, i) => <CardSkeleton key={i} />)
             ) : products.length === 0 ? (
-              <div className="col-span-full p-12 text-center text-on-surface-variant">لا توجد منتجات بعد. أضف منتجك الأول!</div>
+              <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
+                <Package size={48} className="text-outline-variant mb-4" />
+                <h3 className="text-xl font-bold mb-2">لا توجد منتجات</h3>
+                <p className="text-on-surface-variant mb-6">المتجر فارغ. أضف منتجك الأول لتبدأ البيع</p>
+                <button onClick={() => { resetForm(); setShowForm(true); }}
+                  className="bg-inverse-surface text-on-inverse px-6 py-3 rounded-full flex items-center gap-2 text-xs font-bold tracking-widest uppercase hover:bg-primary active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150">
+                  <PackagePlus size={16} /> إضافة منتج
+                </button>
+              </div>
             ) : (
-              products.map((product) => (
-                <div key={product._id} className="bg-surface rounded-2xl overflow-hidden border border-surface-container-highest group shadow-sm hover:shadow-md transition-all">
+              products.map((product, idx) => (
+                <div key={product._id} className="bg-surface rounded-2xl overflow-hidden border border-surface-container-highest group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]"
+                  style={{ animation: `fadeSlideUp 300ms ease-out forwards`, animationDelay: `${idx * 40}ms` }}>
                   <div className="relative aspect-[4/3] bg-surface-container-low">
                     <img src={product.imageUrl || "/placeholder.svg"} alt={product.nameAr}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                      className="w-full h-full object-cover transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-105" />
                     <div className="absolute top-4 right-4 flex gap-2">
-                      <button onClick={() => editProduct(product)}
-                        className="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-on-surface hover:text-primary transition-colors"><Edit2 size={16} /></button>
-                      <button onClick={() => handleDelete(product._id)}
-                        className="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-error hover:bg-error-container transition-colors"><Trash2 size={16} /></button>
+                      <button onClick={() => editProduct(product)} aria-label="تعديل المنتج"
+                        className="w-11 h-11 rounded-full bg-surface/90 backdrop-blur flex items-center justify-center text-on-surface hover:text-primary active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"><Edit2 size={16} /></button>
+                      <button onClick={() => handleDelete(product._id)} aria-label="حذف المنتج"
+                        className="w-11 h-11 rounded-full bg-surface/90 backdrop-blur flex items-center justify-center text-error hover:bg-error-container active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"><Trash2 size={16} /></button>
                     </div>
                   </div>
                   <div className="p-4 lg:p-6 text-right">
-                    <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest block mb-1">{product.categoryAr}</span>
+                    <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest block mb-1">{product.categoryAr}</span>
                     <h4 className="text-base lg:text-lg font-bold truncate">{product.nameAr}</h4>
                     <div className="flex justify-between items-center mt-4 flex-row-reverse">
-                      <span className="bg-surface-container-high px-3 py-1 rounded-full text-[10px] font-bold">متوفر: {product.stock} {product.unit}</span>
+                      <span className="bg-surface-container-high px-3 py-1 rounded-full text-xs font-bold">متوفر: {product.stock} {product.unit}</span>
                       <span className="text-lg font-bold text-primary">{product.price} د.أ</span>
                     </div>
                   </div>
@@ -196,32 +207,35 @@ export default function Products() {
   );
 }
 
-function InputField({ label, error, ...reg }: { label: string; error?: string } & Record<string, unknown>) {
+function InputField({ label, error, id, ...reg }: { label: string; error?: string; id?: string } & Record<string, unknown>) {
+  const inputId = useId();
   return (
-    <div className="relative pt-4 text-right">
-      <input {...reg} className="peer block w-full bg-transparent border-b border-on-surface-variant py-3 text-lg focus:outline-none focus:border-primary transition-colors text-right" />
-      <label className="absolute right-0 top-0 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest pointer-events-none">{label}</label>
-      {error && <p className="text-[10px] text-error mt-1">{error}</p>}
+    <div className="text-right">
+      <label htmlFor={id || inputId} className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">{label}</label>
+      <input id={id || inputId} {...reg} className="block w-full bg-transparent border-b border-on-surface-variant py-3 text-lg focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40 transition-colors text-right" />
+      {error && <p className="text-xs text-error mt-1">{error}</p>}
     </div>
   );
 }
 
-function SelectField({ label, error, children, ...reg }: { label: string; error?: string; children: ReactNode } & Record<string, unknown>) {
+function SelectField({ label, error, children, id, ...reg }: { label: string; error?: string; children: ReactNode; id?: string } & Record<string, unknown>) {
+  const selectId = useId();
   return (
-    <div className="relative pt-4 text-right">
-      <label className="absolute top-0 right-0 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">{label}</label>
-      <select {...reg} className="w-full bg-transparent border-b border-on-surface-variant py-3 text-lg focus:outline-none appearance-none cursor-pointer text-right">{children}</select>
-      {error && <p className="text-[10px] text-error mt-1">{error}</p>}
+    <div className="text-right">
+      <label htmlFor={id || selectId} className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">{label}</label>
+      <select id={id || selectId} {...reg} className="w-full bg-transparent border-b border-on-surface-variant py-3 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 appearance-none cursor-pointer text-right">{children}</select>
+      {error && <p className="text-xs text-error mt-1">{error}</p>}
     </div>
   );
 }
 
-function TextField({ label, error, ...reg }: { label: string; error?: string } & Record<string, unknown>) {
+function TextField({ label, error, id, ...reg }: { label: string; error?: string; id?: string } & Record<string, unknown>) {
+  const textareaId = useId();
   return (
-    <div className="relative pt-4 text-right">
-      <label className="absolute top-0 right-0 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">{label}</label>
-      <textarea {...reg} className="w-full bg-transparent border-b border-on-surface-variant py-3 text-sm focus:outline-none resize-none h-24 text-right" />
-      {error && <p className="text-[10px] text-error mt-1">{error}</p>}
+    <div className="text-right">
+      <label htmlFor={id || textareaId} className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">{label}</label>
+      <textarea id={id || textareaId} {...reg} className="w-full bg-transparent border-b border-on-surface-variant py-3 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 resize-none h-24 text-right" />
+      {error && <p className="text-xs text-error mt-1">{error}</p>}
     </div>
   );
 }
