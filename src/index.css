@@ -42,8 +42,16 @@
   --spacing-stack-md: 16px;
   --spacing-stack-sm: 8px;
 
+  --breakpoint-xs: 480px;
+
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-card: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --shadow-card-lift: 0 12px 40px rgba(0, 0, 0, 0.1);
+  --animate-fade-in: fadeSlideUp 300ms ease-out forwards;
 }
 
 @layer base {
@@ -51,6 +59,7 @@
     @apply bg-background text-on-surface antialiased;
   }
 }
+
 
 @keyframes fadeSlideUp {
   from {
@@ -89,6 +98,17 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }
 

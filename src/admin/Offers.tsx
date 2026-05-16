@@ -82,7 +82,7 @@ export default function Offers() {
       resetForm();
     } catch (err) {
       showToast("فشل الحفظ", "error");
-      console.error(err);
+      console.error("Failed to save offer", err);
     }
   }
 
@@ -92,7 +92,7 @@ export default function Offers() {
       showToast("تم حذف العرض", "info");
     } catch (err) {
       showToast("فشل الحذف", "error");
-      console.error(err);
+      console.error("Failed to delete offer", err);
     }
   }
 
@@ -163,11 +163,13 @@ export default function Offers() {
               </div>
             ) : (
               offers.map((offer, idx) => (
-                <div key={offer._id} className={`bg-surface rounded-2xl overflow-hidden border shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] ${isExpired(offer.expiryDate) ? "opacity-50" : ""}`}
-                  style={{ animation: `fadeSlideUp 300ms ease-out forwards`, animationDelay: `${idx * 40}ms` }}>
+                <div key={offer._id} className={`animate-fade-in bg-surface rounded-2xl overflow-hidden border shadow-card hover:shadow-card-lift hover:-translate-y-0.5 transition-all duration-300 ease-out ${isExpired(offer.expiryDate) ? "opacity-50" : ""}`} style={{ animationDelay: `${idx * 40}ms` }}>
                   {offer.imageUrl && (
-                    <div className="aspect-video bg-surface-container-low">
-                      <img src={offer.imageUrl} alt={offer.titleAr} className="w-full h-full object-cover" />
+                    <div className="aspect-video bg-surface-container-low overflow-hidden">
+                      <div className="relative">
+                        <img src={offer.imageUrl} alt={offer.titleAr} className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
                     </div>
                   )}
                   <div className="p-6 text-right">
@@ -178,8 +180,8 @@ export default function Offers() {
                     <h4 className="text-lg font-bold mb-2">{offer.titleAr}</h4>
                     <p className="text-sm text-on-surface-variant mb-4 line-clamp-2">{offer.descriptionAr}</p>
                     <div className="flex gap-2">
-                      <button onClick={() => editOffer(offer)} aria-label="تعديل العرض" className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-outline text-xs font-bold hover:bg-surface-variant active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"><Edit2 size={14} /> تعديل</button>
-                      <button onClick={() => setDeleteTarget(offer._id)} aria-label="حذف العرض" className="flex items-center gap-2 px-4 py-2 rounded-full border border-error-container text-xs font-bold text-error hover:bg-error-container active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150"><Trash2 size={14} /> حذف</button>
+                      <button onClick={() => editOffer(offer)} aria-label="تعديل العرض" className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-full border border-outline text-sm font-bold hover:bg-surface-variant active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"><Edit2 size={14} /> تعديل</button>
+                      <button onClick={() => setDeleteTarget(offer._id)} aria-label="حذف العرض" className="flex items-center gap-2 px-4 py-3 rounded-full border border-error-container text-sm font-bold text-error hover:bg-error-container active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150"><Trash2 size={14} /> حذف</button>
                     </div>
                   </div>
                 </div>
@@ -207,7 +209,7 @@ function InputField({ label, error, id, ...reg }: { label: string; error?: strin
   return (
     <div className="text-right">
       <label htmlFor={id || inputId} className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">{label}</label>
-      <input id={id || inputId} {...reg} className="block w-full bg-transparent border-b border-on-surface-variant py-3 text-lg focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40 transition-colors text-right" />
+      <input id={id || inputId} {...reg} className="block w-full bg-surface-container-low/50 border-b-2 border-on-surface-variant/30 py-3.5 text-lg focus:outline-none focus:border-primary focus-visible:ring-0 transition-all duration-200 text-right rounded-none px-1" />
       {error && <p className="text-xs text-error mt-1">{error}</p>}
     </div>
   );

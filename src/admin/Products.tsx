@@ -93,7 +93,7 @@ export default function Products() {
       resetForm();
     } catch (err) {
       showToast("فشل الحفظ", "error");
-      console.error(err);
+      console.error("Failed to save product", err);
     }
   }
 
@@ -103,7 +103,7 @@ export default function Products() {
       showToast("تم حذف المنتج", "info");
     } catch (err) {
       showToast("فشل الحذف", "error");
-      console.error(err);
+      console.error("Failed to delete product", err);
     }
   }
 
@@ -128,7 +128,7 @@ export default function Products() {
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <label tabIndex={0}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileRef.current?.click(); } }}
-                  className="aspect-square bg-surface border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-surface-container transition-colors group focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none">
+                  className="aspect-video bg-surface border-2 border-dashed border-outline-variant rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-surface-container transition-colors group focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none">
                   {selectedFile ? (
                     <img src={URL.createObjectURL(selectedFile)} alt="معاينة الصورة" className="w-full h-full object-cover rounded-xl" />
                   ) : (
@@ -179,12 +179,12 @@ export default function Products() {
               </div>
             ) : (
               products.map((product, idx) => (
-                <div key={product._id} className="bg-surface rounded-2xl overflow-hidden border border-surface-container-highest group shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]"
-                  style={{ animation: `fadeSlideUp 300ms ease-out forwards`, animationDelay: `${idx * 40}ms` }}>
-                  <div className="relative aspect-[4/3] bg-surface-container-low">
+                <div key={product._id} className="animate-fade-in bg-surface rounded-2xl overflow-hidden border border-surface-container-highest group shadow-card hover:shadow-card-lift hover:-translate-y-0.5 transition-all duration-300 ease-out" style={{ animationDelay: `${idx * 40}ms` }}>
+                  <div className="relative aspect-[4/3] bg-surface-container-low overflow-hidden">
                     <img src={product.imageUrl || "/placeholder.svg"} alt={product.nameAr} loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-105" />
-                    <div className="absolute top-4 right-4 flex gap-2">
+                      className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute top-4 right-4 flex gap-2 translate-y-0 opacity-100 lg:translate-y-0 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100 transition-all duration-200">
                       <button onClick={() => editProduct(product)} aria-label="تعديل المنتج"
                         className="w-11 h-11 rounded-full bg-surface/90 backdrop-blur flex items-center justify-center text-on-surface hover:text-primary active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"><Edit2 size={16} /></button>
                       <button onClick={() => setDeleteTarget(product._id)} aria-label="حذف المنتج"
@@ -224,7 +224,7 @@ function InputField({ label, error, id, ...reg }: { label: string; error?: strin
   return (
     <div className="text-right">
       <label htmlFor={id || inputId} className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">{label}</label>
-      <input id={id || inputId} {...reg} className="block w-full bg-transparent border-b border-on-surface-variant py-3 text-lg focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40 transition-colors text-right" />
+      <input id={id || inputId} {...reg} className="block w-full bg-surface-container-low/50 border-b-2 border-on-surface-variant/30 py-3.5 text-lg focus:outline-none focus:border-primary focus-visible:ring-0 transition-all duration-200 text-right rounded-none px-1" />
       {error && <p className="text-xs text-error mt-1">{error}</p>}
     </div>
   );
@@ -235,7 +235,7 @@ function SelectField({ label, error, children, id, ...reg }: { label: string; er
   return (
     <div className="text-right">
       <label htmlFor={id || selectId} className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">{label}</label>
-      <select id={id || selectId} {...reg} className="w-full bg-transparent border-b border-on-surface-variant py-3 text-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 appearance-none cursor-pointer text-right">{children}</select>
+      <select id={id || selectId} {...reg} className="w-full bg-surface-container-low/50 border-b-2 border-on-surface-variant/30 py-3.5 text-lg focus:outline-none focus-visible:ring-0 transition-all duration-200 appearance-none cursor-pointer text-right rounded-none px-1">{children}</select>
       {error && <p className="text-xs text-error mt-1">{error}</p>}
     </div>
   );
@@ -246,7 +246,7 @@ function TextField({ label, error, id, ...reg }: { label: string; error?: string
   return (
     <div className="text-right">
       <label htmlFor={id || textareaId} className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">{label}</label>
-      <textarea id={id || textareaId} {...reg} className="w-full bg-transparent border-b border-on-surface-variant py-3 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 resize-none h-24 text-right" />
+      <textarea id={id || textareaId} {...reg} className="w-full bg-surface-container-low/50 border-b-2 border-on-surface-variant/30 py-3 text-sm focus:outline-none focus-visible:ring-0 transition-all duration-200 resize-none h-24 text-right rounded-none px-1" />
       {error && <p className="text-xs text-error mt-1">{error}</p>}
     </div>
   );

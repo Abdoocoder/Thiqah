@@ -40,7 +40,7 @@ export default function Contacts() {
       showToast("تم حذف الرسالة", "info");
     } catch (err) {
       showToast("فشل الحذف", "error");
-      console.error(err);
+      console.error("Failed to delete contact", err);
     }
   }
 
@@ -88,8 +88,8 @@ export default function Contacts() {
             <div className="space-y-4">
               {paged?.map((contact, idx) => (
                 <div key={contact._id}
-                  className={`bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)] transition-shadow duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] ${!contact.read ? "ring-1 ring-primary" : ""}`}
-                  style={{ animation: `fadeSlideUp 300ms ease-out forwards`, animationDelay: `${idx * 40}ms` }}
+                  className={`animate-fade-in bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-card transition-shadow duration-200 ease-out ${!contact.read ? "ring-1 ring-primary" : ""}`}
+                  style={{ animationDelay: `${idx * 40}ms` }}
                   onClick={() => !contact.read && handleMarkRead(contact._id)}
                   onKeyDown={(e) => { if ((e.key === "Enter" || e.key === " ") && !contact.read) { e.preventDefault(); handleMarkRead(contact._id); } }}
                   tabIndex={contact.read ? -1 : 0} role={contact.read ? undefined : "button"}>
@@ -110,11 +110,11 @@ export default function Contacts() {
                         <div className="flex gap-3">
                           <a href={whatsappUrl(`السلام عليكم ${contact.name}، وصلتنا رسالتك: ${contact.message}`)}
                             target="_blank" rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-4 py-2 rounded-full bg-whatsapp/10 text-whatsapp text-xs font-bold hover:bg-whatsapp/20 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-whatsapp/40 focus-visible:outline-none transition duration-150">
+                            className="flex items-center gap-2 px-4 py-3 rounded-full bg-whatsapp/10 text-whatsapp text-sm font-bold hover:bg-whatsapp/20 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-whatsapp/40 focus-visible:outline-none transition duration-150">
                             <MessageCircle size={14} /> رد عبر واتساب
                           </a>
                           <button onClick={(e) => { e.stopPropagation(); setDeleteTarget(contact._id); }}
-                            className="flex items-center gap-2 px-4 py-2 rounded-full border border-error-container text-xs font-bold text-error hover:bg-error-container active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150">
+                            className="flex items-center gap-2 px-4 py-3 rounded-full border border-error-container text-sm font-bold text-error hover:bg-error-container active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150">
                             <Trash2 size={14} /> حذف
                           </button>
                         </div>

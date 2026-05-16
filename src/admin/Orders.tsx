@@ -39,7 +39,7 @@ export default function Orders() {
       showToast("تم تحديث الحالة");
     } catch (err) {
       showToast("فشل تحديث الحالة", "error");
-      console.error(err);
+      console.error("Failed to update order status", err);
     }
   }
 
@@ -49,7 +49,7 @@ export default function Orders() {
       showToast("تم حذف الطلب", "info");
     } catch (err) {
       showToast("فشل الحذف", "error");
-      console.error(err);
+      console.error("Failed to delete order", err);
     }
   }
 
@@ -87,7 +87,7 @@ export default function Orders() {
             />
             {search && (
               <button onClick={() => { setSearch(""); setPage(1); }} aria-label="مسح البحث"
-                className="absolute left-2 top-1/2 -translate-y-1/2 p-2 text-on-surface-variant hover:text-on-surface active:scale-[0.97] transition duration-150">
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface active:scale-[0.97] transition duration-150">
                 <X size={14} />
               </button>
             )}
@@ -96,7 +96,7 @@ export default function Orders() {
             value={statusFilter}
             onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
             aria-label="تصفية حسب الحالة"
-            className="bg-surface border border-outline-variant rounded-full px-4 py-3 text-sm focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40"
+            className="bg-surface border border-outline-variant rounded-full px-4 py-3.5 text-sm focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40"
           >
             <option value="">جميع الحالات</option>
             {statuses.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -118,8 +118,7 @@ export default function Orders() {
           <>
             <div className="space-y-4">
               {paged?.map((order, idx) => (
-                <div key={order._id} className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)]"
-                  style={{ animation: `fadeSlideUp 300ms ease-out forwards`, animationDelay: `${idx * 40}ms` }}>
+                <div key={order._id} className="animate-fade-in bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-card" style={{ animationDelay: `${idx * 40}ms` }}>
                   <div tabIndex={0} role="button"
                     className="p-4 lg:p-6 flex flex-col lg:flex-row justify-between lg:items-center gap-4 cursor-pointer focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none rounded-xl"
                     onClick={() => setExpandedId(expandedId === order._id ? null : order._id)}
@@ -141,7 +140,7 @@ export default function Orders() {
                     </div>
                   </div>
 
-                  <div className="grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]"
+                  <div className="grid transition-[grid-template-rows] duration-300 ease-out"
                     style={{ gridTemplateRows: expandedId === order._id ? '1fr' : '0fr' }}>
                     <div className="overflow-hidden">
                       <div className="px-4 lg:px-6 pb-6 border-t border-surface-container-highest pt-4">
@@ -170,16 +169,16 @@ export default function Orders() {
 
                         <div className="flex flex-wrap items-center gap-3">
                           <select value={order.status} onChange={(e) => handleStatusChange(order._id, e.target.value)} aria-label="تغيير حالة الطلب"
-                            className="border border-outline-variant rounded-full px-4 py-2 text-xs font-bold bg-transparent focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40">
+                            className="border border-outline-variant rounded-full px-4 py-3 text-sm font-bold bg-transparent focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40">
                             {statuses.map((s) => <option key={s} value={s}>{s}</option>)}
                           </select>
 
                           <a href={whatsappUrl(`السلام عليكم ${order.customerName}، بخصوص طلبك رقم ${order._id.slice(-6)} حالته: ${order.status}`)}
                             target="_blank" rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-4 py-2 rounded-full border border-outline-variant text-xs font-bold hover:bg-surface-container-low active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"><MessageCircle size={14} /> واتساب</a>
+                          className="flex items-center gap-2 px-4 py-3 rounded-full border border-outline-variant text-sm font-bold hover:bg-surface-container-low active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"><MessageCircle size={14} /> واتساب</a>
 
                         <button onClick={() => setDeleteTarget(order._id)}
-                          className="px-4 py-2 rounded-full border border-error-container text-xs font-bold text-error hover:bg-error-container active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150">حذف</button>
+                          className="px-4 py-3 rounded-full border border-error-container text-sm font-bold text-error hover:bg-error-container active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150">حذف</button>
                         </div>
                       </div>
                     </div>

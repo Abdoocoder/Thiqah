@@ -73,10 +73,10 @@ export default function ConfirmDialog({
       <div
         ref={dialogRef}
         className="relative bg-surface rounded-2xl border border-surface-container-highest p-8 max-w-md w-full shadow-xl text-right"
-        style={{ animation: "scaleIn 200ms ease-out" }}
+        style={{ animation: "modalIn 250ms ease-out forwards" }}
       >
         <div className="flex items-center gap-3 mb-6 flex-row-reverse">
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${destructive ? "bg-error-container text-error" : "bg-primary-container text-primary"}`}>
+          <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${destructive ? "bg-error-container text-error" : "bg-primary/10 text-primary"}`}>
             <AlertTriangle size={24} />
           </div>
           <h3 id="confirm-title" className="text-xl font-bold">{title}</h3>

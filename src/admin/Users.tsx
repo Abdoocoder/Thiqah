@@ -21,7 +21,7 @@ export default function Users() {
       showToast("تم تحديث الصلاحية");
     } catch (err) {
       showToast("فشل تحديث الصلاحية", "error");
-      console.error(err);
+      console.error("Failed to update user role", err);
     }
   }
 
@@ -44,7 +44,7 @@ export default function Users() {
             <p className="text-on-surface-variant">لم يتم تسجيل أي مستخدمين في النظام بعد</p>
           </div>
         ) : (
-          <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)]">
+          <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-card">
             <div className="overflow-x-auto">
               <table className="w-full text-right" dir="rtl">
                 <thead className="bg-surface-container-low text-on-surface-variant text-xs uppercase tracking-widest">
@@ -75,7 +75,7 @@ export default function Users() {
                       </td>
                       <td className="py-4 px-6">
                         <select value={u.role} aria-label="تغيير صلاحية المستخدم" onChange={(e) => handleRoleChange(u._id, e.target.value as "admin" | "employee")}
-                          className="border border-outline-variant rounded-full px-3 py-1.5 text-xs font-bold bg-transparent focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40 active:scale-[0.98] transition-[background-color,transform]">
+                          className="border border-outline-variant rounded-full px-3 py-3 text-sm font-bold bg-transparent focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40 active:scale-[0.98] transition-[background-color,transform] min-h-[44px]">
                           <option value="admin">مدير</option>
                           <option value="employee">موظف</option>
                         </select>

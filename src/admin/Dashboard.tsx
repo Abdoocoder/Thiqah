@@ -5,16 +5,6 @@ import { memo, useEffect } from "react";
 import { TrendingUp, ShoppingCart, AlertTriangle, Package, type LucideIcon } from "lucide-react";
 import { TableSkeleton, ContactSkeleton } from "../components/Skeleton";
 
-const FloatIcon = memo(function FloatIcon({ icon: Icon, destructive }: { icon: LucideIcon; destructive?: boolean }) {
-  return (
-    <Icon
-      size={18}
-      className={destructive ? "text-error" : "text-primary"}
-      style={{ animation: "float 3s ease-in-out infinite" }}
-    />
-  );
-});
-
 const StatCard = memo(function StatCard({
   title,
   value,
@@ -32,17 +22,21 @@ const StatCard = memo(function StatCard({
 }) {
   return (
     <div
-      className="bg-surface rounded-xl p-6 border border-surface-container-highest flex flex-col justify-between shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)] text-right transition-shadow duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]"
+      className="group bg-surface rounded-xl p-6 border border-surface-container-highest flex flex-col justify-between shadow-card text-right transition-all duration-300 ease-card hover:shadow-card-lift hover:-translate-y-0.5"
       style={{ animation: `countIn 250ms ease-out forwards`, animationDelay: `${idx * 60}ms` }}
     >
       <div className="flex justify-between items-start flex-row-reverse">
         <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">
           {title}
         </span>
-        <FloatIcon icon={Icon} destructive={destructive} />
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${
+          destructive ? "bg-error-container text-error" : "bg-primary/10 text-primary"
+        }`}>
+          <Icon size={18} />
+        </div>
       </div>
       <div>
-        <p className="text-3xl font-bold mb-1">{value}</p>
+        <p className="text-2xl sm:text-3xl font-bold mb-1 tabular-nums">{value}</p>
         {sub && (
           <p
             className={`text-xs flex items-center gap-1 justify-end ${
@@ -128,7 +122,7 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Orders */}
-        <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)]">
+        <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-card">
           <div className="p-6 border-b border-surface-container-highest flex justify-between items-center flex-row-reverse">
             <h3 className="text-xl font-bold">أحدث الطلبات</h3>
           </div>
@@ -155,9 +149,8 @@ export default function Dashboard() {
                   {orders.slice(0, 5).map((order, idx) => (
                     <tr
                       key={order._id}
-                      className="hover:bg-surface-container-low transition-colors"
-                      style={{ animation: `fadeSlideUp 300ms ease-out forwards`, animationDelay: `${idx * 60}ms` }}
-                    >
+                      className="animate-fade-in hover:bg-surface-container-low transition-colors"
+                      style={{ animationDelay: `${idx * 60}ms` }}>
                       <td className="py-4 px-6 font-medium">
                         {order._id.slice(-6)}
                       </td>
@@ -196,7 +189,7 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Contacts */}
-        <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.04)]">
+        <div className="bg-surface rounded-xl border border-surface-container-highest overflow-hidden shadow-card">
           <div className="p-6 border-b border-surface-container-highest flex justify-between items-center flex-row-reverse">
             <h3 className="text-xl font-bold">أحدث الرسائل</h3>
           </div>
@@ -213,10 +206,10 @@ export default function Dashboard() {
               {contacts.slice(0, 3).map((contact, idx) => (
                 <div
                   key={contact._id}
-                  className={`p-6 flex items-start gap-4 flex-row-reverse ${
+                  className={`animate-fade-in p-6 flex items-start gap-4 flex-row-reverse ${
                     !contact.read ? "bg-primary-container/10" : ""
                   }`}
-                  style={{ animation: `fadeSlideUp 300ms ease-out forwards`, animationDelay: `${idx * 60}ms` }}
+                  style={{ animationDelay: `${idx * 60}ms` }}
                 >
                   <div className="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-sm font-bold shrink-0">
                     {contact.name[0]}

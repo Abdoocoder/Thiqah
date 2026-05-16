@@ -17,11 +17,11 @@ const icons: Record<ToastType, ReactNode> = {
 export default function Toast({ toast }: { toast: ToastState | null }) {
   return (
     <div
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
+      className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none max-w-[calc(100vw-2rem)]"
     >
       <div
         role="alert"
-        className={`flex items-center gap-2 px-6 py-3 rounded-full shadow-lg text-sm font-bold backdrop-blur-md transition-[transform,opacity] duration-[250ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
+        className={`flex items-center gap-2 px-6 py-3 rounded-full shadow-lg text-sm font-bold backdrop-blur-md transition-all duration-300 ease-out ${
           toast
             ? "translate-y-0 opacity-100"
             : "translate-y-3 opacity-0"

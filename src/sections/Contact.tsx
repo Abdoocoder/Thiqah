@@ -40,7 +40,7 @@ export default function Contact() {
       reset();
     } catch (err) {
       setServerError("فشل الإرسال. حاول مرة أخرى.");
-      console.error(err);
+      console.error("Failed to submit contact form", err);
     } finally {
       setSending(false);
     }
