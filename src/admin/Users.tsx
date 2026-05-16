@@ -29,7 +29,7 @@ export default function Users() {
     <AdminLayout>
       <div className="max-w-4xl mx-auto space-y-8 text-right">
         <div>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-2">إدارة المستخدمين</h2>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">إدارة المستخدمين</h2>
           <p className="text-on-surface-variant">التحكم بصلاحيات المستخدمين</p>
         </div>
 
@@ -49,33 +49,33 @@ export default function Users() {
               <table className="w-full text-right" dir="rtl">
                 <thead className="bg-surface-container-low text-on-surface-variant text-xs uppercase tracking-widest">
                   <tr>
-                    <th className="py-4 px-6 font-normal">الاسم</th>
-                    <th className="py-4 px-6 font-normal">المعرف</th>
-                    <th className="py-4 px-6 font-normal">الصلاحية</th>
-                    <th className="py-4 px-6 font-normal">تعديل</th>
+                    <th className="py-4 px-3 sm:px-6 font-normal">الاسم</th>
+                    <th className="py-4 px-3 sm:px-6 font-normal hidden sm:table-cell">المعرف</th>
+                    <th className="py-4 px-3 sm:px-6 font-normal">الصلاحية</th>
+                    <th className="py-4 px-3 sm:px-6 font-normal">تعديل</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-surface-container-highest">
                   {users.map((u) => (
                     <tr key={u._id} className="hover:bg-surface-container-low transition-colors">
-                      <td className="py-4 px-6">
-                        <div className="flex items-center gap-3 flex-row-reverse">
-                          <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs font-bold">
+                      <td className="py-4 px-3 sm:px-6">
+                        <div className="flex items-center gap-2 sm:gap-3 flex-row-reverse">
+                          <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs font-bold shrink-0">
                             {u.name?.[0] || "م"}
                           </div>
-                          <span className="text-sm font-medium">{u.name || "بدون اسم"}</span>
+                          <span className="text-sm font-medium truncate max-w-[80px] sm:max-w-none">{u.name || "بدون اسم"}</span>
                         </div>
                       </td>
-                      <td className="py-4 px-6 text-xs text-on-surface-variant font-mono">{u.tokenIdentifier.slice(0, 20)}...</td>
-                      <td className="py-4 px-6">
-                        <span className={`flex items-center gap-2 text-xs font-bold ${u.role === "admin" ? "text-primary" : "text-on-surface-variant"}`}>
+                      <td className="py-4 px-3 sm:px-6 text-xs text-on-surface-variant font-mono hidden sm:table-cell">{u.tokenIdentifier.slice(0, 20)}...</td>
+                      <td className="py-4 px-3 sm:px-6">
+                        <span className={`flex items-center gap-1 sm:gap-2 text-xs font-bold ${u.role === "admin" ? "text-primary" : "text-on-surface-variant"}`}>
                           {u.role === "admin" ? <Shield size={14} /> : <ShieldAlert size={14} />}
                           {u.role === "admin" ? "مدير" : "موظف"}
                         </span>
                       </td>
-                      <td className="py-4 px-6">
+                      <td className="py-4 px-3 sm:px-6">
                         <select value={u.role} aria-label="تغيير صلاحية المستخدم" onChange={(e) => handleRoleChange(u._id, e.target.value as "admin" | "employee")}
-                          className="border border-outline-variant rounded-full px-3 py-3 text-sm font-bold bg-transparent focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40 active:scale-[0.98] transition-[background-color,transform] min-h-[44px]">
+                          className="border border-outline-variant rounded-full px-2 sm:px-3 py-2 sm:py-3 text-sm font-bold bg-transparent focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/40 active:scale-[0.98] transition-[background-color,transform] min-h-[44px]">
                           <option value="admin">مدير</option>
                           <option value="employee">موظف</option>
                         </select>

@@ -69,7 +69,7 @@ export default function Orders() {
       <div className="max-w-6xl mx-auto space-y-8 text-right">
         <div className="flex justify-between items-end flex-row-reverse">
           <div>
-            <h2 className="text-3xl lg:text-4xl font-bold mb-2">الطلبات</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">الطلبات</h2>
             <p className="text-on-surface-variant">إدارة الطلبات وتحديث حالتها</p>
           </div>
         </div>

@@ -86,7 +86,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const menuItems = allMenuItems.filter((item) => item.minRole === null || isAdmin);
 
   return (
-    <div className="flex bg-background min-h-screen" dir="rtl" style={{ backgroundImage: 'radial-gradient(ellipse at top left, var(--color-surface-container) 0%, transparent 70%)' }}>
+    <div className="flex bg-background min-h-screen overflow-x-hidden" dir="rtl" style={{ backgroundImage: 'radial-gradient(ellipse at top left, var(--color-surface-container) 0%, transparent 70%)' }}>
       {/* Mobile overlay */}
       <div
         className={`fixed inset-0 bg-inverse-surface/30 z-30 lg:hidden transition-opacity duration-200 ease-out will-change-opacity ${
@@ -158,7 +158,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 min-h-screen">
+      <main className="flex-1 min-h-screen min-w-0">
         <header className="sticky top-0 z-20 bg-surface/80 backdrop-blur-md border-b border-surface-container-highest px-4 lg:px-8 py-4 flex justify-between items-center h-16 lg:h-20">
           <button ref={hamburgerRef}
             className="lg:hidden w-11 h-11 flex items-center justify-center text-on-surface-variant hover:text-on-surface active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150 rounded-lg"

@@ -80,7 +80,7 @@ export default function Dashboard() {
       <div className="max-w-6xl mx-auto space-y-8 text-right">
         <div className="flex justify-between items-end flex-row-reverse">
           <div>
-            <h2 className="text-3xl lg:text-4xl font-bold mb-2">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
               نظرة عامة
             </h2>
             <p className="text-on-surface-variant">
@@ -139,10 +139,10 @@ export default function Dashboard() {
               <table className="w-full text-right" dir="rtl">
                 <thead className="bg-surface-container-low text-on-surface-variant text-xs uppercase tracking-widest">
                   <tr>
-                    <th className="py-4 px-6 font-normal">رقم الطلب</th>
-                    <th className="py-4 px-6 font-normal">العميل</th>
-                    <th className="py-4 px-6 font-normal">الحالة</th>
-                    <th className="py-4 px-6 font-normal">المجموع</th>
+                    <th className="py-3 px-3 sm:px-6 font-normal">رقم الطلب</th>
+                    <th className="py-3 px-3 sm:px-6 font-normal">العميل</th>
+                    <th className="py-3 px-3 sm:px-6 font-normal">الحالة</th>
+                    <th className="py-3 px-3 sm:px-6 font-normal">المجموع</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-surface-container-highest">
@@ -151,25 +151,25 @@ export default function Dashboard() {
                       key={order._id}
                       className="animate-fade-in hover:bg-surface-container-low transition-colors"
                       style={{ animationDelay: `${idx * 60}ms` }}>
-                      <td className="py-4 px-6 font-medium">
+                      <td className="py-3 px-3 sm:px-6 font-medium text-sm">
                         {order._id.slice(-6)}
                       </td>
-                      <td className="py-4 px-6">
-                        <div className="flex items-center gap-3 flex-row-reverse">
-                          <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs font-bold">
+                      <td className="py-3 px-3 sm:px-6">
+                        <div className="flex items-center gap-2 sm:gap-3 flex-row-reverse">
+                          <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-xs font-bold shrink-0">
                             {order.customerName[0]}
                           </div>
-                          <span className="text-sm">
+                          <span className="text-sm truncate max-w-[80px] sm:max-w-none">
                             {order.customerName}
                           </span>
                         </div>
                       </td>
-                      <td className="py-4 px-6">
+                      <td className="py-3 px-3 sm:px-6">
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-bold ${
+                          className={`px-2 sm:px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${
                             order.status === "جديد"
                               ? "bg-primary-container text-on-primary-container"
-                              :                             order.status === "تم التوصيل" || order.status === "مكتمل"
+                              : order.status === "تم التوصيل" || order.status === "مكتمل"
                               ? "bg-success-container text-success"
                               : "bg-surface-container-highest"
                           }`}
@@ -177,7 +177,7 @@ export default function Dashboard() {
                           {order.status}
                         </span>
                       </td>
-                      <td className="py-4 px-6 font-bold">
+                      <td className="py-3 px-3 sm:px-6 font-bold text-sm whitespace-nowrap">
                         {order.total} د.أ
                       </td>
                     </tr>

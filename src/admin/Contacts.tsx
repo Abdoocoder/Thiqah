@@ -49,7 +49,7 @@ export default function Contacts() {
       <div className="max-w-4xl mx-auto space-y-8 text-right">
         <div className="flex justify-between items-end flex-row-reverse">
           <div>
-            <h2 className="text-3xl lg:text-4xl font-bold mb-2">رسائل العملاء</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">رسائل العملاء</h2>
             <p className="text-on-surface-variant">
               {unreadCount > 0 ? `${unreadCount} رسالة غير مقروءة` : "جميع الرسائل مقروءة"}
             </p>
@@ -107,7 +107,7 @@ export default function Contacts() {
                           <span className="text-xs text-on-surface-variant">{new Date(contact.createdAt).toLocaleDateString("ar-JO")}</span>
                         </div>
                         <p className="text-sm text-on-surface-variant leading-relaxed mb-4 break-words">{contact.message}</p>
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 flex-wrap">
                           <a href={whatsappUrl(`السلام عليكم ${contact.name}، وصلتنا رسالتك: ${contact.message}`)}
                             target="_blank" rel="noopener noreferrer"
                             className="flex items-center gap-2 px-4 py-3 rounded-full bg-whatsapp/10 text-whatsapp text-sm font-bold hover:bg-whatsapp/20 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-whatsapp/40 focus-visible:outline-none transition duration-150">
