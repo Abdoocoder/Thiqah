@@ -4,19 +4,20 @@
 </picture>
 
 <p align="center">
-  <strong>الثقة للمنتجات البلدية</strong> — Al-Thiqah Local Products
+  <strong>الثقة للمنتجات البلدية</strong> &mdash; Al-Thiqah Local Products
 </p>
 
 <p align="center">
-  A bilingual admin dashboard and brand landing page for a Jordanian heritage food brand selling olive oil, cheese, and ghee. Built with React, Convex, Tailwind CSS v4, and GSAP.
+  A bilingual (AR/EN) admin dashboard and brand landing page for a Jordanian heritage food brand selling olive oil, cheese, and ghee. Built with React 19, Convex, Tailwind CSS v4, and GSAP.
 </p>
 
 <p align="center">
-  <a href="#features">Features</a> •
-  <a href="#stack">Stack</a> •
-  <a href="#getting-started">Getting Started</a> •
-  <a href="#project-structure">Structure</a> •
-  <a href="#audit-score">Audit Score</a>
+  <a href="#features">Features</a> &bull;
+  <a href="#stack">Stack</a> &bull;
+  <a href="#getting-started">Getting Started</a> &bull;
+  <a href="#project-structure">Structure</a> &bull;
+  <a href="#design-system">Design System</a> &bull;
+  <a href="#audit-score">Audit</a>
 </p>
 
 ---
@@ -25,36 +26,39 @@
 
 **Landing Page**
 - Brand hero with parallax background and GSAP-staggered word reveal
+- Custom animated splash loader with SVG progress arc, particles, and shimmer transitions
 - Product catalog with WhatsApp-driven ordering flow
 - Seasonal offers section with live countdown timers
 - Brand story section with scroll-triggered parallax
 - Customer testimonials with ScrollTrigger animations
-- Contact form with server-side persistence (Convex)
+- Contact form with server-side persistence (Convex) and Zod validation
 - Smooth Lenis scrolling with GSAP ScrollTrigger integration
 - Responsive RTL-first layout
 
 **Admin Dashboard**
 - Role-based access control (admin / employee) via Clerk
 - Product management: create, read, update, delete with image upload
-- Order management: status tracking, search, filter, pagination
-- Customer contact inbox: read/unread, reply via WhatsApp, delete
-- Offer management: CRUD with expiry tracking, discount display
-- User management: role assignment (admin → employee)
+- Order management: lifecycle status tracking, search, filter, pagination
+- Customer contact inbox: read/unread tracking, WhatsApp reply, deletion
+- Offer management: CRUD with expiry tracking and discount display
+- User management: role assignment (admin -> employee)
 - Dashboard overview with sales stats, active orders, low-stock alerts
 - Dark mode support (respects `prefers-color-scheme`)
-- Interactive confirmation dialogs for destructive actions
+- Keyboard-accessible confirmation dialogs with focus trapping
+- Skeleton loading states for every data view
+- Code-split routes with manual vendor chunking
 
 ## Stack
 
 | Layer | Technology |
 |-------|------------|
-| **Framework** | React 19 + TypeScript ~5.8 |
+| **Framework** | React 19 + TypeScript 5.8 |
 | **Build** | Vite 6 with Tailwind CSS v4 |
 | **Backend** | Convex (reactive DB + serverless functions) |
 | **Auth** | Clerk |
 | **Animation** | GSAP + ScrollTrigger + Lenis |
 | **Forms** | React Hook Form + Zod |
-| **Analytics** | Firebase (lazy-loaded) |
+| **Analytics** | Firebase (lazy-loaded, optional) |
 | **Icons** | Lucide React |
 | **Routing** | React Router v7 |
 | **Deployment** | Convex (backend), Vite (frontend) |
@@ -103,8 +107,8 @@ npm run build
 
 ```
 src/
-├── admin/                # Dashboard pages
-│   ├── AdminLayout.tsx   # Shared admin shell (sidebar, header, auth guard)
+├── admin/                # Dashboard pages (lazy-loaded)
+│   ├── AdminLayout.tsx   # Shared admin shell (sidebar, header, auth guard, tab trapping)
 │   ├── Dashboard.tsx     # Overview stats and recent activity
 │   ├── Products.tsx      # Product CRUD with image upload
 │   ├── Orders.tsx        # Order lifecycle management
@@ -112,34 +116,37 @@ src/
 │   ├── Offers.tsx        # Promotional offer management
 │   └── Users.tsx         # Role-based user administration
 ├── components/           # Shared UI components
-│   ├── ConfirmDialog.tsx # Accessible confirmation modal
-│   ├── Navbar.tsx        # Landing page navigation
+│   ├── ConfirmDialog.tsx # Accessible confirmation modal with keyboard trap
+│   ├── Navbar.tsx        # Landing page navigation (mobile + desktop)
 │   ├── Pagination.tsx    # Server-style page controls
-│   ├── ProductCard.tsx   # Public-facing product card
-│   ├── SignIn.tsx        # Clerk sign-in wrapper
-│   ├── Skeleton.tsx      # Loading state components
+│   ├── ProductCard.tsx   # Public-facing product card (motion + WhatsApp)
+│   ├── SignIn.tsx        # Clerk sign-in wrapper with custom theming
+│   ├── Skeleton.tsx      # Loading state components (card, table, order, contact)
 │   ├── Toast.tsx         # Toast notification display
 │   └── useToast.ts       # Toast state hook
 ├── sections/             # Landing page sections
-│   ├── Hero.tsx          # Parallax hero with GSAP
+│   ├── Hero.tsx          # Parallax hero with GSAP word reveal
 │   ├── Products.tsx      # Product grid from Convex
-│   ├── Offers.tsx        # Offers with countdown timers
-│   ├── Story.tsx         # Brand story with parallax
-│   ├── Testimonials.tsx  # Customer reviews
-│   ├── Contact.tsx       # Contact form with validation
+│   ├── Offers.tsx        # Offers with live countdown timers
+│   ├── Story.tsx         # Brand story with parallax background
+│   ├── Testimonials.tsx  # Customer reviews with ScrollTrigger
+│   ├── Contact.tsx       # Contact form with Zod validation
 │   ├── Footer.tsx        # Site footer
-│   └── PageLoader.tsx    # Splash loader animation
+│   └── PageLoader.tsx    # GSAP-animated splash loader (SVG arc, particles, shimmer)
 ├── hooks/
-│   └── useSmoothScroll.tsx  # Lenis + GSAP integration
+│   └── useSmoothScroll.tsx  # Lenis + GSAP ScrollTrigger integration
 ├── lib/
-│   ├── firebase.ts       # Analytics initialization
+│   ├── firebase.ts       # Lazy-loaded analytics initialization
 │   └── whatsapp.ts       # WhatsApp link utilities
+├── types/
+│   └── clerk.d.ts        # Clerk type augmentations
 ├── App.tsx               # Root layout and routing
 ├── main.tsx              # Entry point (Clerk + Convex providers)
-└── index.css             # Tokenized theme + animations + dark mode
+└── index.css             # Tokenized theme + keyframes + dark mode
 
 convex/
-├── schema.ts             # Database schema (products, orders, contacts, offers, users)
+├── schema.ts             # Database schema (users, products, offers, orders, contacts)
+├── auth.config.ts        # Clerk auth integration
 ├── products.ts           # Product queries and mutations
 ├── orders.ts             # Order queries and mutations
 ├── contacts.ts           # Contact queries and mutations
@@ -150,7 +157,7 @@ convex/
 
 ## Design System
 
-The color palette is tokenized in Tailwind v4's `@theme` directive with olive green (`#3e5219`) as the primary — a deliberate departure from conventional SaaS dark-blue/navy palettes.
+The color palette is tokenized in Tailwind v4's `@theme` directive with olive green (`#3e5219`) as the primary, deliberately avoiding conventional SaaS dark-blue/navy palettes.
 
 | Token | Light | Dark |
 |-------|-------|------|
@@ -158,20 +165,25 @@ The color palette is tokenized in Tailwind v4's `@theme` directive with olive gr
 | `background` | `#fbf9f9` | `#141514` |
 | `surface` | `#fbf9f9` | `#1a1c1a` |
 | `on-surface` | `#1b1c1c` | `#e4e2e2` |
+| `surface-container` | `#efeded` | `#222422` |
+| `outline` | `#75796b` | `#8e9284` |
+| `error` | `#ba1a1a` | `#ffb4ab` |
 
-Dark mode activates automatically via `prefers-color-scheme`. All 27 color tokens have dark variants with adjusted chroma for readability.
+All 27 color tokens have dark variants with adjusted chroma for readability. Dark mode activates automatically via `prefers-color-scheme`. `prefers-reduced-motion` is respected globally.
+
+Animation easings use custom cubic-bezier curves (`cubic-bezier(0.23, 1, 0.32, 1)`) rather than Tailwind defaults, and keyframes include `fadeSlideUp`, `shimmer`, `float`, `countIn`, and `scaleIn`.
 
 ## Audit Score
 
-**15 / 20 — Good**
+**15 / 20 &mdash; Good**
 
-| Dimension | Score | Status |
-|-----------|-------|--------|
-| Accessibility | 3/4 | WCAG AA mostly met |
-| Performance | 3/4 | Code-split routes, lazy images |
-| Responsive | 3/4 | Fluid, collapsible sidebar |
-| Theming | 2/4 | Full token system, dark mode |
-| Anti-Patterns | 4/4 | Clean, intentional design |
+| # | Dimension | Score | Key Finding |
+|---|-----------|-------|-------------|
+| 1 | Accessibility | 2/4 | No `<h1>` on landing page; image `alt` uses URLs |
+| 2 | Performance | 3/4 | Code-split routes, lazy images, manual chunking |
+| 3 | Responsive Design | 3/4 | Fluid grids, collapsible sidebar, minor touch target gaps |
+| 4 | Theming | 3/4 | Full token system, dark mode, minor hardcoded loader colors |
+| 5 | Anti-Patterns | 4/4 | Distinctive olive-green identity, no AI tells |
 
 ## Commit Convention
 
