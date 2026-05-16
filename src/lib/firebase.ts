@@ -12,19 +12,20 @@ export function initAnalytics() {
     return;
   }
 
-  import("firebase/analytics").then(({ getAnalytics, logEvent }) => {
-    import("firebase/app").then(({ initializeApp }) => {
-      const app = initializeApp({
-        apiKey,
-        authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-        projectId,
-        storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-        messagingSenderId: import.meta.env.VITE_FIREBASE_SENDER_ID,
-        appId: import.meta.env.VITE_FIREBASE_APP_ID,
-        measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
-      });
-      analytics = getAnalytics(app);
+  Promise.all([
+    import("firebase/analytics"),
+    import("firebase/app"),
+  ]).then(([{ getAnalytics, logEvent }, { initializeApp }]) => {
+    const app = initializeApp({
+      apiKey,
+      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+      projectId,
+      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: import.meta.env.VITE_FIREBASE_SENDER_ID,
+      appId: import.meta.env.VITE_FIREBASE_APP_ID,
+      measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
     });
+    analytics = getAnalytics(app);
   }).catch((e) => console.warn("Firebase init failed:", e));
 }
 

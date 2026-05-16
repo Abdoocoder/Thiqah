@@ -34,8 +34,13 @@ export default function Orders() {
   const paged = orders?.slice((safePage - 1) * pageSize, safePage * pageSize);
 
   async function handleStatusChange(id: string, status: string) {
-    await updateStatus({ id: id as Id<"orders">, status });
-    showToast("تم تحديث الحالة");
+    try {
+      await updateStatus({ id: id as Id<"orders">, status });
+      showToast("تم تحديث الحالة");
+    } catch (err) {
+      showToast("فشل تحديث الحالة", "error");
+      console.error(err);
+    }
   }
 
   async function handleDelete(id: string) {

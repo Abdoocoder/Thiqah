@@ -70,12 +70,12 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 text-center px-6">
-        <h2
+        <h1
           ref={titleRef}
-          className="text-5xl sm:text-4xl md:text-7xl font-bold text-on-inverse mb-8 tracking-tight flex flex-wrap justify-center gap-x-4"
+          className="text-4xl sm:text-5xl md:text-7xl font-bold text-on-inverse mb-8 tracking-tight flex flex-wrap justify-center gap-x-4"
         >
           {words}
-        </h2>
+        </h1>
         <div ref={ctaRef}>
           <button
             onClick={() => openWhatsapp(orderMessage("منتجات الثقة"))}

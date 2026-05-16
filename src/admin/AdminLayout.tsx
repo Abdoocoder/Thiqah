@@ -77,7 +77,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     return null;
   }
 
-  const isAdmin = user?.publicMetadata?.isAdmin === true || user?.publicMetadata?.isAdmin === "true";
+  const isAdmin = String(user?.publicMetadata?.isAdmin ?? "") === "true";
   if (!isAdmin) {
     navigate("/");
     return null;
