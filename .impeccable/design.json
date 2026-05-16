@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-16T00:00:00.000Z",
+  "title": "Design System: Al-Thiqah Admin",
+  "extensions": {
+    "colorMeta": {
+      "ancient-olive": {
+        "role": "primary",
+        "displayName": "Ancient Olive",
+        "canonical": "#3e5219",
+        "darkVariant": "#d0eba1",
+        "tonalRamp": ["#1a2609", "#273a0e", "#3e5219", "#556b2f", "#7a9b42", "#9bbf5c", "#b9d882", "#d0eba1"]
+      },
+      "pressed-linen": {
+        "role": "neutral-bg",
+        "displayName": "Pressed Linen",
+        "canonical": "#fbf9f9",
+        "darkVariant": "#1a1c1a",
+        "tonalRamp": ["#1a1c1a", "#222422", "#2a2c2a", "#323432", "#efeded", "#f5f3f3", "#f9f7f7", "#fbf9f9"]
+      },
+      "night-olive": {
+        "role": "on-surface",
+        "displayName": "Night Olive",
+        "canonical": "#1b1c1c",
+        "darkVariant": "#e4e2e2",
+        "tonalRamp": ["#1b1c1c", "#2a2c2a", "#323432", "#3d3f3c", "#4b4c49", "#636460", "#888978", "#c5c8b8"]
+      },
+      "stone-bark": {
+        "role": "on-surface-variant",
+        "displayName": "Stone Bark",
+        "canonical": "#45483c",
+        "darkVariant": "#c5c8b8",
+        "tonalRamp": ["#2a2c25", "#33352e", "#45483c", "#575a4d", "#6b6e5f", "#878975", "#a8ab99", "#c5c8b8"]
+      },
+      "inverse-coal": {
+        "role": "inverse-surface",
+        "displayName": "Inverse Coal",
+        "canonical": "#1c1d1d",
+        "darkVariant": "#e4e2e2",
+        "tonalRamp": ["#141514", "#1c1d1d", "#252626", "#2e2f2f", "#3a3b3b", "#4f5050", "#797a7a", "#c5c6c6"]
+      },
+      "error-red": {
+        "role": "error",
+        "displayName": "Error Red",
+        "canonical": "#ba1a1a",
+        "darkVariant": "#ffb4ab",
+        "tonalRamp": ["#410002", "#690005", "#93000a", "#ba1a1a", "#de3730", "#ff5449", "#ffb4ab", "#ffdad6"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Landing page hero and splash loader. Not used in admin views." },
+      "headline": { "displayName": "Headline", "purpose": "One per admin page. The single top-level title anchoring each view." },
+      "title": { "displayName": "Title", "purpose": "Card headings, panel labels, modal titles." },
+      "body": { "displayName": "Body", "purpose": "Table content, descriptions, form field values." },
+      "label": { "displayName": "Label", "purpose": "Form labels, category chips, table column headers. Always 700 weight." }
+    },
+    "shadows": [
+      {
+        "name": "card",
+        "lightValue": "0 20px 40px -15px rgba(0,0,0,0.04)",
+        "darkValue": "0 0 0 1px rgba(255,255,255,0.04), 0 2px 8px rgba(0,0,0,0.4)",
+        "purpose": "Resting state for all elevated surfaces. Always-on — not state-triggered."
+      },
+      {
+        "name": "card-hover",
+        "lightValue": "0 8px 30px rgba(0,0,0,0.08)",
+        "darkValue": "0 0 0 1px rgba(255,255,255,0.06), 0 4px 16px rgba(0,0,0,0.5)",
+        "purpose": "Pointer-over state. Applied alongside -translate-y-0.5 vertical lift."
+      },
+      {
+        "name": "card-lift",
+        "lightValue": "0 12px 40px rgba(0,0,0,0.1)",
+        "darkValue": "0 0 0 1px rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.6)",
+        "purpose": "Highest elevation: active/pressed cards, modal containers."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "Default easing for entrance animations and state transitions."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.77, 0, 0.175, 1)",
+        "purpose": "Symmetric transitions: accordion expand/collapse, drawer open/close."
+      },
+      {
+        "name": "ease-card",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Card hover lift and button hover color shift. Snappy exit, relaxed arrival."
+      },
+      {
+        "name": "fade-slide-up",
+        "value": "fadeSlideUp 300ms cubic-bezier(0.23,1,0.32,1) forwards",
+        "purpose": "List item entrance staggered by index (delay: idx * 40ms)."
+      },
+      {
+        "name": "modal-in",
+        "value": "modalIn 250ms ease-out forwards",
+        "purpose": "Confirm dialog entrance: scale 0.96 + translateY 8px → 1 + 0."
+      },
+      {
+        "name": "shimmer",
+        "value": "shimmer 1.8s ease-in-out infinite",
+        "purpose": "Skeleton loading sweep. Uses translateX(-100% → 100%) on a gradient overlay."
+      }
+    ],
+    "breakpoints": [
+      { "name": "xs", "value": "480px", "purpose": "Custom breakpoint for very small phones." },
+      { "name": "sm", "value": "640px", "purpose": "Tailwind default small breakpoint." },
+      { "name": "md", "value": "768px", "purpose": "Tailwind default medium breakpoint." },
+      { "name": "lg", "value": "1024px", "purpose": "Desktop layout switch: sidebar visible, multi-column grids." },
+      { "name": "xl", "value": "1280px", "purpose": "Wide layout: 3-column product grid, sidebar + 2-column form split." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The primary CTA. Dark coal at rest, olive on hover. Pill-shaped always.",
+      "html": "<button class=\"ds-btn-primary\">إضافة منتج</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; background: #1c1d1d; color: #f0efee; padding: 14px 24px; border-radius: 9999px; border: none; font-size: 0.875rem; font-weight: 700; font-family: 'DM Sans', 'Noto Sans Arabic', sans-serif; cursor: pointer; transition: background 150ms cubic-bezier(0.16, 1, 0.3, 1), transform 150ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-primary:hover { background: #3e5219; } .ds-btn-primary:active { transform: scale(0.98); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(62,82,25,0.4); } .ds-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action. Outline-bordered, transparent fill. Same pill shape as primary.",
+      "html": "<button class=\"ds-btn-ghost\">إلغاء</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: #1b1c1c; border: 1px solid #75796b; padding: 14px 24px; border-radius: 9999px; font-size: 0.875rem; font-weight: 700; font-family: 'DM Sans', 'Noto Sans Arabic', sans-serif; cursor: pointer; transition: background 150ms ease; } .ds-btn-ghost:hover { background: #e9e8e7; } .ds-btn-ghost:active { transform: scale(0.98); } .ds-btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(62,82,25,0.4); }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge-neutral",
+      "description": "Pill-shaped display-only status indicator. Not interactive.",
+      "html": "<span class=\"ds-badge ds-badge--pending\">قيد الانتظار</span>",
+      "css": ".ds-badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; font-family: 'DM Sans', 'Noto Sans Arabic', sans-serif; white-space: nowrap; } .ds-badge--neutral { background: #e9e8e7; color: #45483c; } .ds-badge--pending { background: #fffbeb; color: #d97706; } .ds-badge--confirmed { background: #eff6ff; color: #2563eb; } .ds-badge--delivered { background: #ecfdf5; color: #059669; } .ds-badge--cancelled { background: #ffdad6; color: #ba1a1a; }"
+    },
+    {
+      "name": "Product Card",
+      "kind": "card",
+      "refersTo": null,
+      "description": "Admin product tile with image, category label, name, stock badge, and price. Lifts on hover.",
+      "html": "<div class=\"ds-product-card\"><div class=\"ds-product-card__image\"><img src=\"/placeholder.svg\" alt=\"زيت زيتون بكر\" /></div><div class=\"ds-product-card__body\"><span class=\"ds-product-card__category\">زيت زيتون</span><h4 class=\"ds-product-card__name\">زيت زيتون بكر ممتاز</h4><div class=\"ds-product-card__footer\"><span class=\"ds-badge ds-badge--neutral\">متوفر: 24 كغم</span><span class=\"ds-product-card__price\">12.5 د.أ</span></div></div></div>",
+      "css": ".ds-product-card { background: #fbf9f9; border-radius: 20px; border: 1px solid #e4e2e2; overflow: hidden; box-shadow: 0 20px 40px -15px rgba(0,0,0,0.04); transition: transform 300ms cubic-bezier(0.16,1,0.3,1), box-shadow 300ms cubic-bezier(0.16,1,0.3,1); direction: rtl; } .ds-product-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); } .ds-product-card__image { aspect-ratio: 4/3; overflow: hidden; background: #f5f3f3; } .ds-product-card__image img { width: 100%; height: 100%; object-fit: cover; transition: transform 700ms ease-out; } .ds-product-card:hover .ds-product-card__image img { transform: scale(1.1); } .ds-product-card__body { padding: 16px 24px 24px; text-align: right; } .ds-product-card__category { font-size: 0.75rem; font-weight: 700; color: #45483c; font-family: 'DM Sans', 'Noto Sans Arabic', sans-serif; display: block; margin-bottom: 4px; } .ds-product-card__name { font-size: 1rem; font-weight: 700; color: #1b1c1c; font-family: 'DM Sans', 'Noto Sans Arabic', sans-serif; margin: 0 0 16px; } .ds-product-card__footer { display: flex; justify-content: space-between; align-items: center; } .ds-product-card__price { font-size: 1.125rem; font-weight: 700; color: #3e5219; font-family: 'DM Sans', sans-serif; }"
+    },
+    {
+      "name": "Underline Input",
+      "kind": "input",
+      "refersTo": null,
+      "description": "Editorial underline-only field. Bottom border is the entire affordance. No box, no radius.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-field__label\" for=\"ds-input-1\">اسم المنتج</label><input class=\"ds-field__input\" id=\"ds-input-1\" type=\"text\" value=\"زيت زيتون بكر\" dir=\"rtl\" /><p class=\"ds-field__error\" role=\"alert\">هذا الحقل مطلوب</p></div>",
+      "css": ".ds-field { text-align: right; } .ds-field__label { display: block; font-size: 0.75rem; font-weight: 700; color: #45483c; font-family: 'DM Sans', 'Noto Sans Arabic', sans-serif; margin-bottom: 8px; } .ds-field__input { display: block; width: 100%; background: transparent; border: none; border-bottom: 2px solid rgba(69,72,60,0.3); padding: 14px 4px; font-size: 1.125rem; font-family: 'DM Sans', 'Noto Sans Arabic', sans-serif; color: #1b1c1c; text-align: right; outline: none; border-radius: 0; transition: border-color 200ms ease; box-sizing: border-box; } .ds-field__input:focus { border-bottom-color: #3e5219; } .ds-field__error { display: block; font-size: 0.75rem; color: #ba1a1a; font-family: 'DM Sans', 'Noto Sans Arabic', sans-serif; margin-top: 4px; }"
+    },
+    {
+      "name": "Admin Nav Item",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "Sidebar navigation item. Active state uses background fill — no side stripe.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav__item ds-nav__item--active\" href=\"#\"><svg class=\"ds-nav__icon\" xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"7\" height=\"9\" x=\"3\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"5\" x=\"14\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"9\" x=\"14\" y=\"12\" rx=\"1\"/><rect width=\"7\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\"/></svg><span class=\"ds-nav__label\">لوحة التحكم</span></a><a class=\"ds-nav__item\" href=\"#\"><svg class=\"ds-nav__icon\" xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z\"/></svg><span class=\"ds-nav__label\">المنتجات</span></a></nav>",
+      "css": ".ds-nav { display: flex; flex-direction: column; gap: 4px; padding: 8px; direction: rtl; } .ds-nav__item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 16px; font-size: 0.875rem; font-weight: 700; font-family: 'DM Sans', 'Noto Sans Arabic', sans-serif; color: #45483c; text-decoration: none; transition: background 150ms ease, color 150ms ease; cursor: pointer; } .ds-nav__item:hover { background: #e9e8e7; color: #1b1c1c; } .ds-nav__item--active { background: rgba(62,82,25,0.1); color: #3e5219; } .ds-nav__icon { flex-shrink: 0; width: 20px; height: 20px; } .ds-nav__label { flex: 1; }"
+    },
+    {
+      "name": "Skeleton Card",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Shimmer placeholder for loading states. Uses translateX sweep on an on-surface-tinted gradient.",
+      "html": "<div class=\"ds-skeleton-card\"><div class=\"ds-skeleton ds-skeleton--image\"></div><div class=\"ds-skeleton-card__body\"><div class=\"ds-skeleton ds-skeleton--label\"></div><div class=\"ds-skeleton ds-skeleton--title\"></div><div class=\"ds-skeleton-card__footer\"><div class=\"ds-skeleton ds-skeleton--chip\"></div><div class=\"ds-skeleton ds-skeleton--price\"></div></div></div></div>",
+      "css": "@keyframes ds-shimmer { from { transform: translateX(-100%); } to { transform: translateX(100%); } } .ds-skeleton { background: #e9e8e7; border-radius: 12px; position: relative; overflow: hidden; } .ds-skeleton::after { content: ''; position: absolute; inset: 0; transform: translateX(-100%); animation: ds-shimmer 1.8s ease-in-out infinite; background: linear-gradient(90deg, transparent, rgba(27,28,28,0.08), transparent); } .ds-skeleton-card { background: #fbf9f9; border-radius: 20px; border: 1px solid #e4e2e2; overflow: hidden; } .ds-skeleton--image { aspect-ratio: 4/3; border-radius: 0; } .ds-skeleton-card__body { padding: 16px 24px 24px; } .ds-skeleton--label { height: 12px; width: 64px; border-radius: 9999px; margin-bottom: 8px; } .ds-skeleton--title { height: 20px; width: 160px; margin-bottom: 16px; } .ds-skeleton-card__footer { display: flex; justify-content: space-between; align-items: center; } .ds-skeleton--chip { height: 24px; width: 80px; border-radius: 9999px; } .ds-skeleton--price { height: 24px; width: 64px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Olive Grove at Midday",
+    "overview": "A working tool built for one person: the owner of a Jordanian heritage food brand who spends their day managing products, orders, and customers. The interface carries the weight and warmth of the brand — olive green, pressed linen, earthy neutrals — without disguising itself as a dashboard. Nothing decorative. Every element earns its place.\n\nThe palette draws from the grove itself: deep grove-green for authority, pressed linen for calm, night-olive for text that reads without effort. Dark mode inverts this to a near-black olive surface with a spring-leaf primary accent, so the same heritage feeling persists after sundown. Depth comes from always-on ambient shadows — low-opacity, directional — that give each card its place in the stack without dramatic contrast.\n\nThis system explicitly rejects: cluttered dashboards that use cards as filler, aimless decorative gradients, side-stripe accents on list items, generic SaaS blue-navy palettes, and glassmorphism as decoration.",
+    "keyCharacteristics": [
+      "RTL-first layout; Arabic script is a first-class typographic concern",
+      "Pill-shaped buttons and chips; gently rounded cards and panels (two radii, two purposes)",
+      "Dark-inverse CTA buttons at rest, shifting to ancient olive on hover",
+      "Underline inputs — no box border, no radius, no background fill",
+      "Ambient-always card shadows, not state-triggered elevation",
+      "Full dark-mode parity: 27 color tokens each with a defined dark-mode counterpart"
+    ],
+    "rules": [
+      {
+        "name": "The Single Accent Rule",
+        "body": "Ancient Olive is the only brand color. It never fills a button at rest. It appears as hover state, active background, and focus ring. Its rarity is its power.",
+        "section": "colors"
+      },
+      {
+        "name": "The Dark Parity Rule",
+        "body": "Every light-mode color token has an explicitly defined dark-mode counterpart. No token is acceptable without its dark twin.",
+        "section": "colors"
+      },
+      {
+        "name": "The No-Tracking Rule",
+        "body": "Letter-spacing is prohibited on Arabic text. tracking-wide, tracking-wider, and tracking-widest break connected Arabic letterforms. Arabic text uses letter-spacing: normal without exception.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ambient-Always Rule",
+        "body": "Shadows are properties of elevated surfaces, not responses to pointer events. A card is elevated; its shadow communicates that at rest. Hover changes the shadow level — it never creates a shadow from nothing.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Dark Outline Rule",
+        "body": "Every elevated surface in dark mode carries a 1px white-outline glow. Without it, rgba(0,0,0,X) shadows are invisible on #1a1c1a. A dark-mode shadow without the white ring is a non-shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use Ancient Olive (#3e5219) sparingly — active nav state, focus rings, hover state of the primary button. Never the resting button fill.",
+      "Do give every admin page exactly one <h2> headline, scaled text-2xl sm:text-3xl lg:text-4xl. One headline per view.",
+      "Do add min-w-0 to any flex child that contains text — prevents horizontal overflow in RTL layouts.",
+      "Do use transition-[transform,box-shadow] on cards and interactive surfaces. Specify exactly what changes.",
+      "Do define both light-mode and dark-mode shadow values for every shadow token.",
+      "Do use underline-only inputs for all form fields. The two-pixel bottom border is the entire affordance.",
+      "Do link every form error to its input via aria-describedby and aria-invalid='true'. Error messages must use role='alert'.",
+      "Do maintain 44px minimum touch targets on all interactive elements.",
+      "Do use pill shapes (9999px) for buttons and chips, rounded-xl/2xl (16–20px) for cards and panels."
+    ],
+    "donts": [
+      "Don't use a colored left or right border (border-left / border-right > 1px) as an accent stripe on any list item, card, or nav item. Side stripes are prohibited.",
+      "Don't apply letter-spacing to Arabic text. tracking-wide, tracking-wider, and tracking-widest break connected Arabic letterforms.",
+      "Don't animate CSS layout properties (grid-template-rows, height, width, padding). Use max-height with a fixed pixel ceiling, or transform and opacity.",
+      "Don't use transition-all. Specify exact properties: transition-[transform,box-shadow].",
+      "Don't define dark-mode shadows as rgba(0,0,0,X) without a white-outline glow. Use the white-ring pattern.",
+      "Don't clutter the interface with excessive cards, decorative gradients, or aimless visual elements.",
+      "Don't use glassmorphism (backdrop-filter: blur) decoratively. Reserved for dialog backdrops and image overlays only.",
+      "Don't use WhatsApp Green (#25D366) for generic success or positive states. It is a vendor color for WhatsApp actions only.",
+      "Don't use pure black (#000000) or pure white (#ffffff). Every neutral is tinted toward the olive hue.",
+      "Don't nest cards inside cards. A container holds content rows, not more containers."
+    ]
+  }
+}
