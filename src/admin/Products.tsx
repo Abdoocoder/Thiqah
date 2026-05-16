@@ -116,7 +116,7 @@ export default function Products() {
             <p className="text-on-surface-variant">إضافة وتعديل المنتجات المتاحة</p>
           </div>
           <button onClick={() => { resetForm(); setShowForm(true); }}
-            className="bg-inverse-surface text-on-inverse px-6 py-3 rounded-full flex items-center gap-2 text-xs font-bold tracking-widest uppercase hover:bg-primary active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150">
+            className="bg-inverse-surface text-on-inverse px-6 py-3.5 rounded-full flex items-center gap-2 text-sm font-bold hover:bg-primary active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150">
             <Plus size={16} /> إضافة منتج
           </button>
         </div>
@@ -132,8 +132,8 @@ export default function Products() {
                   {selectedFile ? (
                     <img src={URL.createObjectURL(selectedFile)} alt="معاينة الصورة" className="w-full h-full object-cover rounded-xl" />
                   ) : (
-                    <><CloudUpload size={40} className="text-outline-variant mb-4 group-hover:text-primary transition-colors" />
-                      <span className="text-xs font-bold text-outline-variant uppercase tracking-wider group-hover:text-primary transition-colors text-center px-4">اسحب الصورة هنا أو اضغط للرفع</span></>
+                    <><CloudUpload size={40} className="text-on-surface-variant mb-4 group-hover:text-primary transition-colors" />
+                      <span className="text-xs font-bold text-on-surface-variant group-hover:text-primary transition-colors text-center px-4">اسحب الصورة هنا أو اضغط للرفع</span></>
                   )}
                   <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={(e) => setSelectedFile(e.target.files?.[0] || null)} />
                 </label>
@@ -154,11 +154,11 @@ export default function Products() {
 
                 <div className="flex gap-4 pt-4">
                   <button type="submit" disabled={isSubmitting}
-                    className="flex-1 bg-inverse-surface text-on-inverse py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-primary active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150 disabled:opacity-50 disabled:active:scale-100">
+                    className="flex-1 bg-inverse-surface text-on-inverse py-4 rounded-full text-sm font-bold hover:bg-primary active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150 disabled:opacity-50 disabled:active:scale-100">
                     {isSubmitting ? "جاري الحفظ..." : editingId ? "حفظ التغييرات" : "إضافة المنتج"}
                   </button>
                   <button type="button" onClick={resetForm}
-                    className="px-6 py-4 rounded-full border border-outline text-xs font-bold uppercase tracking-widest hover:bg-surface-variant active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150">إلغاء</button>
+                    className="px-6 py-4 rounded-full border border-outline text-sm font-bold hover:bg-surface-variant active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150">إلغاء</button>
                 </div>
               </form>
             </div>
@@ -173,13 +173,13 @@ export default function Products() {
                 <h3 className="text-xl font-bold mb-2">لا توجد منتجات</h3>
                 <p className="text-on-surface-variant mb-6">المتجر فارغ. أضف منتجك الأول لتبدأ البيع</p>
                 <button onClick={() => { resetForm(); setShowForm(true); }}
-                  className="bg-inverse-surface text-on-inverse px-6 py-3 rounded-full flex items-center gap-2 text-xs font-bold tracking-widest uppercase hover:bg-primary active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150">
+                  className="bg-inverse-surface text-on-inverse px-6 py-3.5 rounded-full flex items-center gap-2 text-sm font-bold hover:bg-primary active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150">
                   <PackagePlus size={16} /> إضافة منتج
                 </button>
               </div>
             ) : (
               products.map((product, idx) => (
-                <div key={product._id} className="animate-fade-in bg-surface rounded-2xl overflow-hidden border border-surface-container-highest group shadow-card hover:shadow-card-lift hover:-translate-y-0.5 transition-all duration-300 ease-out" style={{ animationDelay: `${idx * 40}ms` }}>
+                <div key={product._id} className="animate-fade-in bg-surface rounded-2xl overflow-hidden border border-surface-container-highest group shadow-card hover:shadow-card-lift hover:-translate-y-0.5 transition-[transform,box-shadow] duration-300 ease-out" style={{ animationDelay: `${idx * 40}ms` }}>
                   <div className="relative aspect-[4/3] bg-surface-container-low overflow-hidden">
                     <img src={product.imageUrl || "/placeholder.svg"} alt={product.nameAr} loading="lazy"
                       className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110" />
@@ -221,33 +221,48 @@ export default function Products() {
 
 function InputField({ label, error, id, ...reg }: { label: string; error?: string; id?: string } & Record<string, unknown>) {
   const inputId = useId();
+  const errorId = useId();
+  const resolvedId = id || inputId;
   return (
     <div className="text-right">
-      <label htmlFor={id || inputId} className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">{label}</label>
-      <input id={id || inputId} {...reg} className="block w-full bg-surface-container-low/50 border-b-2 border-on-surface-variant/30 py-3.5 text-lg focus:outline-none focus:border-primary focus-visible:ring-0 transition-all duration-200 text-right rounded-none px-1" />
-      {error && <p className="text-xs text-error mt-1">{error}</p>}
+      <label htmlFor={resolvedId} className="block text-xs font-bold text-on-surface-variant mb-2">{label}</label>
+      <input id={resolvedId} {...reg}
+        aria-describedby={error ? errorId : undefined}
+        aria-invalid={error ? true : undefined}
+        className="block w-full bg-surface-container-low/50 border-b-2 border-on-surface-variant/30 py-3.5 text-lg focus:outline-none focus:border-primary focus-visible:ring-0 transition-all duration-200 text-right rounded-none px-1" />
+      {error && <p id={errorId} role="alert" className="text-xs text-error mt-1">{error}</p>}
     </div>
   );
 }
 
 function SelectField({ label, error, children, id, ...reg }: { label: string; error?: string; children: ReactNode; id?: string } & Record<string, unknown>) {
   const selectId = useId();
+  const errorId = useId();
+  const resolvedId = id || selectId;
   return (
     <div className="text-right">
-      <label htmlFor={id || selectId} className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">{label}</label>
-      <select id={id || selectId} {...reg} className="w-full bg-surface-container-low/50 border-b-2 border-on-surface-variant/30 py-3.5 text-lg focus:outline-none focus-visible:ring-0 transition-all duration-200 appearance-none cursor-pointer text-right rounded-none px-1">{children}</select>
-      {error && <p className="text-xs text-error mt-1">{error}</p>}
+      <label htmlFor={resolvedId} className="block text-xs font-bold text-on-surface-variant mb-2">{label}</label>
+      <select id={resolvedId} {...reg}
+        aria-describedby={error ? errorId : undefined}
+        aria-invalid={error ? true : undefined}
+        className="w-full bg-surface-container-low/50 border-b-2 border-on-surface-variant/30 py-3.5 text-lg focus:outline-none focus-visible:ring-0 transition-all duration-200 appearance-none cursor-pointer text-right rounded-none px-1">{children}</select>
+      {error && <p id={errorId} role="alert" className="text-xs text-error mt-1">{error}</p>}
     </div>
   );
 }
 
 function TextField({ label, error, id, ...reg }: { label: string; error?: string; id?: string } & Record<string, unknown>) {
   const textareaId = useId();
+  const errorId = useId();
+  const resolvedId = id || textareaId;
   return (
     <div className="text-right">
-      <label htmlFor={id || textareaId} className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">{label}</label>
-      <textarea id={id || textareaId} {...reg} className="w-full bg-surface-container-low/50 border-b-2 border-on-surface-variant/30 py-3 text-sm focus:outline-none focus-visible:ring-0 transition-all duration-200 resize-none h-24 text-right rounded-none px-1" />
-      {error && <p className="text-xs text-error mt-1">{error}</p>}
+      <label htmlFor={resolvedId} className="block text-xs font-bold text-on-surface-variant mb-2">{label}</label>
+      <textarea id={resolvedId} {...reg}
+        aria-describedby={error ? errorId : undefined}
+        aria-invalid={error ? true : undefined}
+        className="w-full bg-surface-container-low/50 border-b-2 border-on-surface-variant/30 py-3 text-sm focus:outline-none focus-visible:ring-0 transition-all duration-200 resize-none h-24 text-right rounded-none px-1" />
+      {error && <p id={errorId} role="alert" className="text-xs text-error mt-1">{error}</p>}
     </div>
   );
 }

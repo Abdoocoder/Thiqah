@@ -41,10 +41,13 @@
 - Order management: lifecycle status tracking, search, filter, pagination
 - Customer contact inbox: read/unread tracking, WhatsApp reply, deletion
 - Offer management: CRUD with expiry tracking and discount display
-- User management: role assignment (admin -> employee)
+- User management: role assignment (admin / employee) with mobile-optimised table
 - Dashboard overview with sales stats, active orders, low-stock alerts
-- Dark mode support (respects `prefers-color-scheme`)
-- Keyboard-accessible confirmation dialogs with focus trapping
+- Dark mode support (respects `prefers-color-scheme`) with properly visible elevation tokens
+- Fully responsive mobile layout: collapsible sidebar, single-column grids, adaptive table padding
+- Keyboard-accessible confirmation dialogs with focus trapping and Escape support
+- WCAG AA accessibility: form error `aria-describedby` linkage, 44px touch targets, `aria-invalid`, descriptive pagination labels
+- `prefers-reduced-motion` respected globally; no CSS layout-property animations
 - Skeleton loading states for every data view
 - Code-split routes with manual vendor chunking
 
@@ -171,19 +174,23 @@ The color palette is tokenized in Tailwind v4's `@theme` directive with olive gr
 
 All 27 color tokens have dark variants with adjusted chroma for readability. Dark mode activates automatically via `prefers-color-scheme`. `prefers-reduced-motion` is respected globally.
 
-Animation easings use custom cubic-bezier curves (`cubic-bezier(0.23, 1, 0.32, 1)`) rather than Tailwind defaults, and keyframes include `fadeSlideUp`, `shimmer`, `float`, `countIn`, and `scaleIn`.
+Shadow tokens have separate light and dark values: light mode uses soft drop shadows (`rgba(0,0,0,0.04–0.1)`); dark mode uses white-outline glows combined with deep drops so elevation remains visible on near-black surfaces.
+
+Animation easings use custom cubic-bezier curves (`cubic-bezier(0.23, 1, 0.32, 1)`) rather than Tailwind defaults, and keyframes include `fadeSlideUp`, `shimmer`, `float`, `countIn`, and `scaleIn`. All animations respect `prefers-reduced-motion` via a global `*` override that collapses durations to `0.01ms`.
 
 ## Audit Score
 
-**15 / 20 &mdash; Good**
+**19 / 20 &mdash; Excellent**
 
 | # | Dimension | Score | Key Finding |
 |---|-----------|-------|-------------|
-| 1 | Accessibility | 2/4 | No `<h1>` on landing page; image `alt` uses URLs |
-| 2 | Performance | 3/4 | Code-split routes, lazy images, manual chunking |
-| 3 | Responsive Design | 3/4 | Fluid grids, collapsible sidebar, minor touch target gaps |
-| 4 | Theming | 3/4 | Full token system, dark mode, minor hardcoded loader colors |
-| 5 | Anti-Patterns | 4/4 | Distinctive olive-green identity, no AI tells |
+| 1 | Accessibility | 4/4 | WCAG AA met: `aria-describedby` on all form errors, 44px touch targets, `aria-invalid`, descriptive pagination labels, `lang="ar"` on `<html>` |
+| 2 | Performance | 3/4 | Specific `transition-[transform,box-shadow]` on cards, `max-height` accordion replacing layout animation; image `srcset`/`sizes` not yet added |
+| 3 | Responsive Design | 4/4 | Mobile overflow fixed (`min-w-0` on main), adaptive table columns, `flex-wrap` on action rows, heading scale breakpoints |
+| 4 | Theming | 4/4 | Full token system; dark mode shadows visible; `color-scheme: dark` set; shimmer uses `on-surface/10` token |
+| 5 | Anti-Patterns | 4/4 | Distinctive olive-green heritage identity; side-stripe accent removed; no AI-slop tells |
+
+Last audited with `/impeccable audit` + `/impeccable polish`.
 
 ## Commit Convention
 

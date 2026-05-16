@@ -138,9 +138,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               }`}
               onClick={() => setSidebarOpen(false)}
             >
-              {location.pathname === item.path && (
-                <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-full" />
-              )}
               <item.icon size={20} className={`transition-transform duration-150 group-hover:scale-110 ${location.pathname === item.path ? "text-primary" : ""}`} />
               <span className="text-sm font-medium">{item.label}</span>
             </Link>

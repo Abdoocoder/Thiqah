@@ -140,9 +140,8 @@ export default function Orders() {
                     </div>
                   </div>
 
-                  <div className="grid transition-[grid-template-rows] duration-300 ease-out"
-                    style={{ gridTemplateRows: expandedId === order._id ? '1fr' : '0fr' }}>
-                    <div className="overflow-hidden">
+                  <div className="overflow-hidden transition-[max-height] duration-300 ease-out"
+                    style={{ maxHeight: expandedId === order._id ? '560px' : '0px' }}>
                       <div className="px-4 lg:px-6 pb-6 border-t border-surface-container-highest pt-4">
                         <div className="mb-4">
                           <h5 className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-2">المنتجات</h5>
@@ -181,7 +180,6 @@ export default function Orders() {
                           className="px-4 py-3 rounded-full border border-error-container text-sm font-bold text-error hover:bg-error-container active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-error/40 focus-visible:outline-none transition duration-150">حذف</button>
                         </div>
                       </div>
-                    </div>
                   </div>
                 </div>
               ))}

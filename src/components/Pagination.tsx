@@ -28,12 +28,13 @@ export default function Pagination({
         <button
           key={p}
           onClick={() => onChange(p)}
+          aria-label={`الصفحة ${p}`}
+          aria-current={p === current ? "page" : undefined}
           className={`w-11 h-11 rounded-full text-sm font-bold active:scale-[0.92] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150 ${
             p === current
               ? "bg-inverse-surface text-on-inverse"
               : "text-on-surface-variant hover:bg-surface-variant"
           }`}
-          aria-current={p === current ? "page" : undefined}
         >
           {p}
         </button>

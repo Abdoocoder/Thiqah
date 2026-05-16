@@ -88,7 +88,7 @@ export default function ConfirmDialog({
           <button
             ref={destructive ? confirmRef : cancelRef}
             onClick={onConfirm}
-            className={`flex-1 py-3 rounded-full text-xs font-bold uppercase tracking-widest active:scale-[0.98] focus-visible:ring-2 focus-visible:outline-none transition duration-150 ${
+            className={`flex-1 py-3.5 rounded-full text-sm font-bold active:scale-[0.98] focus-visible:ring-2 focus-visible:outline-none transition duration-150 ${
               destructive
                 ? "bg-error text-on-inverse hover:bg-error/90 focus-visible:ring-error/40"
                 : "bg-inverse-surface text-on-inverse hover:bg-primary focus-visible:ring-primary/40"
@@ -99,7 +99,7 @@ export default function ConfirmDialog({
           <button
             ref={destructive ? cancelRef : confirmRef}
             onClick={onCancel}
-            className="px-6 py-3 rounded-full border border-outline text-xs font-bold uppercase tracking-widest hover:bg-surface-variant active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"
+            className="px-6 py-3.5 rounded-full border border-outline text-sm font-bold hover:bg-surface-variant active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:outline-none transition duration-150"
           >
             {cancelLabel}
           </button>

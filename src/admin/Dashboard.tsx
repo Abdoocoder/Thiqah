@@ -22,7 +22,7 @@ const StatCard = memo(function StatCard({
 }) {
   return (
     <div
-      className="group bg-surface rounded-xl p-6 border border-surface-container-highest flex flex-col justify-between shadow-card text-right transition-all duration-300 ease-card hover:shadow-card-lift hover:-translate-y-0.5"
+      className="group bg-surface rounded-xl p-6 border border-surface-container-highest flex flex-col justify-between shadow-card text-right transition-[transform,box-shadow] duration-300 ease-card hover:shadow-card-lift hover:-translate-y-0.5"
       style={{ animation: `countIn 250ms ease-out forwards`, animationDelay: `${idx * 60}ms` }}
     >
       <div className="flex justify-between items-start flex-row-reverse">

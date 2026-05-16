@@ -3,7 +3,7 @@ export function Skeleton({ className }: { className?: string }) {
     <div
       className={`bg-surface-container-high rounded-xl relative overflow-hidden ${className || ""}`}
     >
-      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.8s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/25 to-transparent" />
+      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.8s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-on-surface/10 to-transparent" />
     </div>
   );
 }
